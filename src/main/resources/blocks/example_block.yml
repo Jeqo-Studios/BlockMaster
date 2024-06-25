@@ -1,0 +1,6 @@
+example:
+  id: "blockmaster:example"
+  itemModelData: 1001
+  instrument: BANJO
+  note: 1
+  powered: false

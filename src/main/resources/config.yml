@@ -1,0 +1,20 @@
+# --------------------------------------------------#
+#
+# BlockMaster 1.0.0
+# Made by Gucci Fox
+#
+# Wiki:        https://jeqo.net/wiki
+# Discord:     https://jeqo.net/discord
+#
+# --------------------------------------------------#
+#                     SETTINGS                      #
+# --------------------------------------------------#
+#
+# Send a message to operators when they join if there is a BlockMaster update.
+check-for-updates: true
+# The language file to load. This will be used for all messages in the plugin.
+language: en_US
+# The title that is displayed in the GUI
+menu-title: "&f"
+# The item that is used to display blocks in the GUI
+menu-item-material: PAPER
