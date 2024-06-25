@@ -1,0 +1,7 @@
+name: BlockMaster
+version: '${project.version}'
+main: net.jeqo.blockmaster.BlockMaster
+api-version: '1.20'
+authors: [ Gucci Fox ]
+description: A unique block creator plugin.
+website: https://jeqo.net
