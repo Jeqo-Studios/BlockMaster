@@ -1,5 +1,14 @@
 messages:
   prefix: '<gradient:#0a306e:#c2d3ed>[BlockMaster]</gradient> <white>'
   no-permission: '<#fc1c1c>Access denied.'
+  player-not-found: '<#fc1c1c>Player not found.'
   config-reloaded: '<green>Config reloaded.'
   command-disabled: '<#fc1c1c>This command is currently disabled!'
+
+  configuration-folder-not-found: 'Configuration folder not found: %s'
+  no-configuration-files-found: 'No configuration files found in the folder: %s'
+  configuration-section-not-found: 'Configuration section not found for file: %s'
+
+  menu-slot-out-of-bounds: '%s menu page button slot(s) out of bounds!'
+
+  invalid-hex-code: 'Invalid hex code: %s'

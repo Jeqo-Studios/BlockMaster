@@ -23,6 +23,6 @@ public record MessageTranslations(JavaPlugin instance) {
      * @return      The value at the specified path, type java.lang.Integer
      */
     public Integer getInt(String path) {
-        return this.instance.getConfig().getInt(path);
+        return (Integer) this.instance.getConfig().getInt(path);
     }
 }

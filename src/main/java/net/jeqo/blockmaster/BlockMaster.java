@@ -44,6 +44,7 @@ public final class BlockMaster extends JavaPlugin {
         // Generate config(s) and set defaults
         getConfig().options().copyDefaults();
         saveDefaultConfig();
+        ConfigConfiguration.copyExampleBlocks();
 
         // Set instances of managers
         setCommandCore(new CommandCore(this));

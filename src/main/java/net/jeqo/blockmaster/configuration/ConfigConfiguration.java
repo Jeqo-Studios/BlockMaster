@@ -1,5 +1,7 @@
 package net.jeqo.blockmaster.configuration;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.logger.Logger;
@@ -10,12 +12,31 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
+@Setter @Getter
 public class ConfigConfiguration {
     /**
      * The folder that stores the languages to be loaded
      */
     public static final String LANGUAGES_CONFIGURATION_FOLDER = "languages";
     public static final String BLOCKS_CONFIGURATION_FOLDER = "blocks";
+
+    /**
+     * Copies the example balloons folder to the plugin's data folder if it doesn't exist
+     */
+    public static void copyExampleBlocks() {
+        // List of example balloon files
+        String[] exampleBalloons = new String[] {
+                "/example_block.yml"
+        };
+
+        // Save all example files in the balloons folder in /resources
+        for (String example : exampleBalloons) {
+            File file = new File(BlockMaster.getInstance().getDataFolder() + File.separator + ConfigConfiguration.BLOCKS_CONFIGURATION_FOLDER + File.separator + example);
+            if (file.exists()) continue;
+
+            BlockMaster.getInstance().saveResource(ConfigConfiguration.BLOCKS_CONFIGURATION_FOLDER + example, false);
+        }
+    }
 
     public static void loadBlocks() {
         File folder = new File(BlockMaster.getInstance().getDataFolder() + File.separator + BLOCKS_CONFIGURATION_FOLDER);
