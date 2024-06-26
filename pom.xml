@@ -92,6 +92,11 @@
           <artifactId>adventure-text-minimessage</artifactId>
           <version>4.17.0</version>
       </dependency>
+      <dependency>
+          <groupId>io.papermc.paperweight</groupId>
+          <artifactId>paperweight-userdev</artifactId>
+          <version>1.7.1-SNAPSHOT</version>
+      </dependency>
 
       <!--   Java related dependencies     -->
       <dependency>
