@@ -6,7 +6,7 @@ import net.jeqo.blockmaster.blocks.api.BlockMasterLoadEvent;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.commands.manager.CommandCore;
 import net.jeqo.blockmaster.configuration.ConfigConfiguration;
-import net.jeqo.blockmaster.listeners.BlockEvents;
+import net.jeqo.blockmaster.listeners.BlockListeners;
 import net.jeqo.blockmaster.listeners.InventoryListeners;
 import net.jeqo.blockmaster.listeners.ListenerCore;
 import net.jeqo.blockmaster.logger.Logger;
@@ -70,7 +70,7 @@ public final class BlockMaster extends JavaPlugin {
         ConfigConfiguration.loadBlocks();
 
         // Stage all listeners for registration
-        getListenerCore().stageListener(new BlockEvents());
+        getListenerCore().stageListener(new BlockListeners());
         getListenerCore().stageListener(new InventoryListeners());
 
         // Register all handlers

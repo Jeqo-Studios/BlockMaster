@@ -28,7 +28,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import java.util.*;
 
-public class BlockEvents implements Listener {
+public class BlockListeners implements Listener {
     private final List<Material> REPLACE = Arrays.asList(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR,
             Material.SHORT_GRASS, Material.TALL_GRASS, Material.SEAGRASS, Material.WATER, Material.LAVA);
     private final List<UUID> antiFastPlace = new ArrayList<>();
