@@ -10,6 +10,8 @@ import org.bukkit.Instrument;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
+
 public class CommandAdd extends Command {
 
     /**
@@ -28,18 +30,15 @@ public class CommandAdd extends Command {
     public boolean execute(CommandSender sender, String[] args) {
         if (args.length < 5) return false;
         try {
-            CustomBlock cb = new CustomBlock(args[1], args[1], Integer.parseInt(args[2]), Instrument.valueOf(args[3]), Integer.parseInt(args[4]), args[5].equalsIgnoreCase("true"));
+            CustomBlock cb = new CustomBlock(args[0], args[0], Integer.parseInt(args[1]), Instrument.valueOf(args[2]), Integer.parseInt(args[3]), args[4].equalsIgnoreCase("true"));
             CustomBlock.register(cb, false);
 
-            //config.blocks.add(cb.serialize());
-
-            sender.sendMessage(Languages.getMessage("prefix") + "Block " + args[1] + " added sucessfully");
+            sender.sendMessage(Languages.getMessage("prefix") + "Block " + args[0] + " added sucessfully");
         } catch (Exception e) {
             e.printStackTrace();
-            sender.sendMessage(Languages.getMessage("prefix") + "Block " + args[1] + " cannot be added, please check the logs");
+            sender.sendMessage(Languages.getMessage("prefix") + "Block " + args[0] + " cannot be added, please check the logs");
             return false;
         }
-        // CustomBlocksPlugin.configData.saveBlocks();
         return false;
     }
 }
