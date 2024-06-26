@@ -1,6 +1,7 @@
 package net.jeqo.blockmaster.blocks.custom;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.directional.DirectionalBlock;
 import net.jeqo.blockmaster.blocks.directional.DirectionalCustomBlock;
@@ -19,68 +20,130 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+@Getter @Setter
 public class CustomBlock {
     private static final List<CustomBlock> REGISTRY = new ArrayList<>();
 
-    @Getter
-    private final String key;
-    @Getter
-    private final String id;
-    private final int itemModelData;
-    @Getter
-    private final CustomBlockData data;
-    @Getter
-    private final Material material;
+    /**
+     * The configuration key of the blocks configuration
+     */
+    private String key;
+    /**
+     * The ID of the block
+     */
+    private String id;
+    /**
+     * The custom model data of the block item given to players
+     */
+    private int customModelData;
+    /**
+     * The custom data of the block
+     */
+    private CustomBlockData data;
+    /**
+     * The material of the block item
+     */
+    private Material material;
 
-    public CustomBlock(String key, @NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered, @Nullable Material material) {
-        this.key = key;
-        this.id = id;
-        this.itemModelData = itemModelData;
-        this.data = new CustomBlockData(instrument, note, powered);
-        this.material = material;
+    /**
+     *                          The constructor used to create a custom block
+     * @param key               The configuration key for the block configuration, type java.lang.String
+     * @param id                The ID of the block, type java.lang.String
+     * @param customModelData   The custom model data of the block item, type int
+     * @param instrument        The instrument of the block, type org.bukkit.Instrument
+     * @param note              The note value that the noteblock is set to, type int
+     * @param powered           The powered state of the noteblock, type boolean
+     * @param material          The material of the block item, type org.bukkit.Material
+     */
+    public CustomBlock(String key, String id, int customModelData, Instrument instrument, int note, boolean powered, Material material) {
+        this.setKey(key);
+        this.setId(id);
+        this.setCustomModelData(customModelData);
+        this.setData(new CustomBlockData(instrument, note, powered));
+        this.setMaterial(material);
     }
 
-    public CustomBlock(String key, @NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered) {
-        this(key, id, itemModelData, instrument, note, powered, null);
+    /**
+     *                          The constructor used to create a custom block with a material of null
+     * @param key               The configuration key for the block configuration, type java.lang.String
+     * @param id                The ID of the block, type java.lang.String
+     * @param customModelData   The custom model data of the block item, type int
+     * @param instrument        The instrument of the block, type org.bukkit.Instrument
+     * @param note              The note value that the noteblock is set to, type int
+     * @param powered           The powered state of the noteblock, type boolean
+     */
+    public CustomBlock(String key, String id, int customModelData, Instrument instrument, int note, boolean powered) {
+        this(key, id, customModelData, instrument, note, powered, null);
     }
 
-    public void onPhysics(Block block, Block source) {
+    /**
+     *                  In the case of a physics event, this method is called
+     * @param block     The block that the physics event is triggered on
+     * @param source    The source of the physics event
+     */
+    public void onPhysics(Block block, Block source) { }
 
-    }
-
+    /**
+     *              Triggered on a block break event and runs the logic for block placements
+     * @param event The event of the block being placed, type org.bukkit.event.block.BlockPlaceEvent
+     */
     public void place(BlockPlaceEvent event) {
         place(event.getBlock());
     }
 
-    public void place(@NotNull Block block) {
+    /**
+     *              Places the block with the custom data and block properties
+     * @param block The block to place, type org.bukkit.block.Block
+     */
+    public void place(Block block) {
         block.setType(Material.NOTE_BLOCK, false);
         block.setBlockData(data.applyData((NoteBlock) block.getBlockData()));
     }
 
+    /**
+     *              Mines the block and drops the item and 0 XP
+     * @param event The event of the block being mined, type org.bukkit.event.block.BlockBreakEvent
+     */
     public void mine(BlockBreakEvent event) {
         mine(event.getBlock());
         event.setExpToDrop(0);
     }
 
-    public void mine(@NotNull Block block) {
+    /**
+     *                  Drops the item when the block is mined instead of the block itself
+     * @param block     The block to mine, type org.bukkit.block.Block
+     */
+    public void mine(Block block) {
         block.getWorld().dropItemNaturally(block.getLocation().add(.5, .5, .5), getItemStack());
     }
 
-    public boolean compareData(@NotNull CustomBlockData data) {
+    /**
+     *              Compares the data of the custom block with the provided data
+     * @param data  The data to compare, type net.jeqo.blockmaster.blocks.custom.CustomBlockData
+     * @return      True if the data matches, false otherwise
+     */
+    public boolean compareData(CustomBlockData data) {
         return (this instanceof DirectionalCustomBlock) ?
                 ((DirectionalCustomBlock) this).isVariant(data) :
                 this.data.compareData(data);
     }
 
+    /**
+     *          Gets the item given to players when they want to place a block with the block ID as false
+     * @return  The item, type org.bukkit.inventory.ItemStack
+     */
     public ItemStack getItemStack() {
         return getItemStack(false);
     }
 
+    /**
+     *                          Gets the item given to players when they want to place a block
+     * @param visibleBlockId    If the block ID should be visible
+     * @return                  The item, type org.bukkit.inventory.ItemStack
+     */
     public ItemStack getItemStack(boolean visibleBlockId) {
         ItemStack item = new ItemStack(material == null ? Material.getMaterial(BlockMaster.getInstance().getConfig().getString("menu-item-material")) : material);
         item = ItemUtils.setItemId(item, id);
@@ -88,7 +151,7 @@ public class CustomBlock {
                 new ComponentBuilder(new TranslatableComponent(String.format("customblocks.item.%s.name", id))).italic(false).create());
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setCustomModelData(itemModelData);
+            meta.setCustomModelData(customModelData);
             meta.setDisplayName(key);
             if (visibleBlockId) meta.setLore(Collections.singletonList(Utils.colorize("&r&8" + id)));
         }
@@ -96,8 +159,11 @@ public class CustomBlock {
         return item;
     }
 
-    ////
-
+    /**
+     *              Gets a custom block by its ID
+     * @param id    The id of the custom block, type java.lang.String
+     * @return      The custom block, type net.jeqo.blockmaster.blocks.custom.CustomBlock
+     */
     public static CustomBlock getCustomBlockbyId(String id) {
         for (CustomBlock CB : REGISTRY)
             if (CB.getId().equalsIgnoreCase(id))
@@ -105,11 +171,21 @@ public class CustomBlock {
         return null;
     }
 
-    public static CustomBlock getCustomBlockbyItem(@NotNull ItemStack item) {
+    /**
+     *              Gets a custom block by its item
+     * @param item  The item of the custom block, type org.bukkit.inventory.ItemStack
+     * @return      The custom block, type net.jeqo.blockmaster.blocks.custom.CustomBlock
+     */
+    public static CustomBlock getCustomBlockByItem(ItemStack item) {
         return getCustomBlockbyId(ItemUtils.getItemId(item));
     }
 
-    public static CustomBlock getCustomBlockbyData(@NotNull CustomBlockData data) {
+    /**
+     *              Gets a custom block that matches the provided data
+     * @param data  The data to match, type net.jeqo.blockmaster.blocks.custom.CustomBlockData
+     * @return      The custom block, type net.jeqo.blockmaster.blocks.custom.CustomBlock
+     */
+    public static CustomBlock getCustomBlockbyData(CustomBlockData data) {
         for (CustomBlock CB : REGISTRY)
             if (CB.compareData(data)
                     || (CB instanceof DirectionalBlock &&
@@ -117,22 +193,39 @@ public class CustomBlock {
         return null;
     }
 
+    /**
+     *             Checks if a block is a custom block
+     * @param b    The block to check, type org.bukkit.block.Block
+     * @return      True if the block is a custom block, false otherwise
+     */
     public static boolean isCustomBlock(Block b) {
         return b.getBlockData() instanceof NoteBlock &&
                 !((NoteBlock) b.getBlockData()).getNote().equals(new Note(0));
     }
 
+    /**
+     *              Checks if there is a custom block in the registry with the specified ID
+     * @param id    The ID of the custom block to check for
+     * @return      True if there is a custom block with the specified ID, false otherwise
+     */
     public static boolean isCustomBlock(String id) {
         return getCustomBlockbyId(id) != null;
     }
 
-    // REGISTRY
-
+    /**
+     *          Gets the block registry
+     * @return  The block registry, type java.util.List[net.jeqo.blockmaster.blocks.custom.CustomBlock]
+     */
     public static List<CustomBlock> getRegistry() {
         return REGISTRY;
     }
 
-    public static void register(@NotNull CustomBlock customBlock, boolean replace) {
+    /**
+     *                      Registers a custom block with a boolean of if it should replace an existing configuration
+     * @param customBlock   The custom block to register, type net.jeqo.blockmaster.blocks.custom.CustomBlock
+     * @param replace       The boolean of if it should replace an existing configuration, type java.lang.Boolean
+     */
+    public static void register(CustomBlock customBlock, boolean replace) {
         String id = customBlock.getId();
         if (replace && getCustomBlockbyId(id) != null) unregister(customBlock.getId());
         else {
@@ -146,31 +239,30 @@ public class CustomBlock {
 
     }
 
-    public static void unregister(@NotNull String id) {
+    /**
+     *             Unregisters a custom block by its ID
+     * @param id   The id of the custom block, type java.lang.String
+     */
+    public static void unregister(String id) {
         REGISTRY.remove(getCustomBlockbyId(id));
     }
 
+    /**
+     * Clears the block registry and wipes all data pertaining to blocks
+     */
     public static void clear() {
         REGISTRY.clear();
     }
 
-    // SERIALIZERS
-    public Map<String, Object> serialize() {
-        Map<String, Object> serialized = new HashMap<>();
-        serialized.put("id", this.id);
-        serialized.put("itemModelData", this.itemModelData);
-        serialized.put("instrument", this.data.getInstrument().toString());
-        serialized.put("note", this.data.getNote());
-        serialized.put("powered", this.data.getPowered());
-
-        if (this.material != null) serialized.put("cbItem", material);
-        return serialized;
-    }
-
-    public static void deserialize(@NotNull FileConfiguration config, String key) {
+    /**
+     *                  Creates a custom block from a configuration file and key and adds it to the registry
+     * @param config    The configuration file, type org.bukkit.configuration.file.FileConfiguration
+     * @param key       The key of the custom block, type java.lang.String
+     */
+    public static void deserialize(FileConfiguration config, String key) {
         try {
             register(new CustomBlock(key, Objects.requireNonNull(config.getString(key + ".id")),
-                            config.getInt(key + ".itemModelData"),
+                            config.getInt(key + ".customModelData"),
                             Instrument.valueOf(config.getString(key + ".instrument")),
                             config.getInt(key + ".note"),
                             config.getBoolean(key + ".powered"),

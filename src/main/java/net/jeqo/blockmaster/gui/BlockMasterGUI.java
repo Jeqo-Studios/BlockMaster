@@ -1,7 +1,5 @@
 package net.jeqo.blockmaster.gui;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.utils.Utils;
@@ -17,10 +15,8 @@ import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.util.*;
 
 public class BlockMasterGUI {

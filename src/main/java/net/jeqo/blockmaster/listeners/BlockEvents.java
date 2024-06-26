@@ -89,7 +89,7 @@ public class BlockEvents implements Listener {
             ItemStack item = ItemUtils.getFirstCustomBlockInHand(inv);
             if (ItemUtils.isAirOrNull(item) || event.getClickedBlock() == null) return false;
 
-            CustomBlock CB = CustomBlock.getCustomBlockbyItem(item);
+            CustomBlock CB = CustomBlock.getCustomBlockByItem(item);
             if (CB == null) return false;
             event.setCancelled(true);
 

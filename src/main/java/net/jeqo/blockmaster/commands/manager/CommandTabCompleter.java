@@ -41,7 +41,7 @@ public class CommandTabCompleter implements TabCompleter {
                 if (args[0].equalsIgnoreCase("add"))
                     return Arrays.asList(
                             CustomBlock.getRegistry().stream().map(CustomBlock::getId).collect(Collectors.toList()),    // block id
-                            Collections.singletonList("(example) 0"), // itemModelData
+                            Collections.singletonList("(example) 0"), // customModelData
                             Arrays.stream(Instrument.values()).map(Enum::toString).collect(Collectors.toList()),           // instruments
                             allPitchNumbers(),  // note
                             Arrays.asList("false", "true")).get(args.length - 2);

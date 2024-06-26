@@ -22,7 +22,7 @@ public class CommandAdd extends Command {
         super(plugin);
         this.addCommandAlias("add");
         this.setCommandDescription("Adds a block to the registry.");
-        this.setCommandSyntax("/blockmaster add <id> <itemModelData> <instrument> <note> <powered>");
+        this.setCommandSyntax("/blockmaster add <id> <customModelData> <instrument> <note> <powered>");
         this.setRequiredPermission(CommandPermission.RELOAD);
     }
 

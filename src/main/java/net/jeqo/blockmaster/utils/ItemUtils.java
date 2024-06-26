@@ -16,9 +16,9 @@ public class ItemUtils {
     }
 
     public static ItemStack getBlockOrCustomBlockInHand(@NotNull PlayerInventory inv) {
-        return (inv.getItemInMainHand().getType().isBlock() || CustomBlock.getCustomBlockbyItem(inv.getItemInMainHand()) != null) && inv.getItemInMainHand().getType() != Material.AIR
+        return (inv.getItemInMainHand().getType().isBlock() || CustomBlock.getCustomBlockByItem(inv.getItemInMainHand()) != null) && inv.getItemInMainHand().getType() != Material.AIR
                 ? inv.getItemInMainHand()
-                : (inv.getItemInOffHand().getType().isBlock() || CustomBlock.getCustomBlockbyItem(inv.getItemInOffHand()) != null) && inv.getItemInOffHand().getType() != Material.AIR
+                : (inv.getItemInOffHand().getType().isBlock() || CustomBlock.getCustomBlockByItem(inv.getItemInOffHand()) != null) && inv.getItemInOffHand().getType() != Material.AIR
                 ? inv.getItemInOffHand()
                 : null;
     }
@@ -43,7 +43,7 @@ public class ItemUtils {
 
         for (ItemStack i : hands) {
             if (ItemUtils.isAirOrNull(i)) continue;
-            CustomBlock CB = CustomBlock.getCustomBlockbyItem(i);
+            CustomBlock CB = CustomBlock.getCustomBlockByItem(i);
             if (CB == null) continue;
             Material expected = CB.getMaterial() != null ? CB.getMaterial() : Material.matchMaterial(BlockMaster.getInstance().getConfig().getString("menu-item-material"));
             if (i.getType() == expected) return i;

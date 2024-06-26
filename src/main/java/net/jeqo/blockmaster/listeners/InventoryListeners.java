@@ -27,7 +27,7 @@ public class InventoryListeners implements Listener {
         ItemStack item = inv.getItem(slot);
         if (ItemUtils.isAirOrNull(item)) return;
 
-        CustomBlock cb = CustomBlock.getCustomBlockbyItem(item);
+        CustomBlock cb = CustomBlock.getCustomBlockByItem(item);
         Player player = (Player) event.getView().getPlayer();
 
         if (cb != null && slot < 45) {
