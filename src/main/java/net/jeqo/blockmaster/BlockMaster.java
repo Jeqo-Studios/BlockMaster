@@ -2,6 +2,7 @@ package net.jeqo.blockmaster;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.jeqo.blockmaster.blocks.api.BlockMasterLoadEvent;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.commands.manager.CommandCore;
 import net.jeqo.blockmaster.configuration.ConfigConfiguration;
@@ -10,7 +11,6 @@ import net.jeqo.blockmaster.listeners.InventoryListeners;
 import net.jeqo.blockmaster.listeners.ListenerCore;
 import net.jeqo.blockmaster.logger.Logger;
 import net.jeqo.blockmaster.message.Languages;
-import net.jeqo.blockmaster.message.MessageTranslations;
 import net.jeqo.blockmaster.nms.CommonNMSHandler;
 import net.jeqo.blockmaster.nms.NMSHandler;
 import net.jeqo.blockmaster.utils.Utils;
@@ -75,6 +75,8 @@ public final class BlockMaster extends JavaPlugin {
 
         // Register all handlers
         getListenerCore().registerListeners();
+
+        Bukkit.getPluginManager().callEvent(new BlockMasterLoadEvent(false));
 
         // Log the final startup message
         Logger.logFinalStartup();

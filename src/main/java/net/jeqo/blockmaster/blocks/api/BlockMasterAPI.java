@@ -3,6 +3,7 @@ package net.jeqo.blockmaster.blocks.api;
 import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.blocks.custom.CustomBlockData;
+import net.jeqo.blockmaster.gui.BlockMasterGUI;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +42,14 @@ public class BlockMasterAPI {
 
     public static CustomBlock getCustomBlock(@NotNull CustomBlockData data) {
         return CustomBlock.getCustomBlockbyData(data);
+    }
+
+    public static void openGUI(@NotNull Player player) {
+        BlockMasterGUI.open(player);
+    }
+
+    public static void openGUI(@NotNull Player player, int page) {
+        BlockMasterGUI.open(player, page);
     }
 
     public static void reload() {

@@ -7,7 +7,7 @@ import lombok.Getter;
  */
 @Getter
 public enum CommandPermission {
-    EXAMPLE("blockmaster.example");
+    RELOAD("blockmaster.reload");
 
     private final String permission;
 

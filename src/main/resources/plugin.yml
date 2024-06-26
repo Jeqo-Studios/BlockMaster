@@ -5,3 +5,8 @@ api-version: '1.20'
 authors: [ Gucci Fox ]
 description: A unique block creator plugin.
 website: https://jeqo.net
+commands:
+  blockmaster:
+    aliases: [bm]
+    usage: 'Usage: /blockmaster <command> [args]'
+    description: The central command to access the BlockMaster commands.

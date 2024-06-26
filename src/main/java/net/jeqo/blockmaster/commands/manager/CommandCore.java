@@ -1,12 +1,17 @@
 package net.jeqo.blockmaster.commands.manager;
 
 import lombok.Getter;
+import net.jeqo.blockmaster.commands.CommandAdd;
+import net.jeqo.blockmaster.commands.CommandReload;
 import net.jeqo.blockmaster.commands.manager.types.CommandAccess;
 import net.jeqo.blockmaster.configuration.PluginConfiguration;
+import net.jeqo.blockmaster.gui.BlockMasterGUI;
 import net.jeqo.blockmaster.message.Languages;
 import net.jeqo.blockmaster.message.MessageTranslations;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,11 +38,8 @@ public class CommandCore implements CommandExecutor {
         this.messageTranslations = new MessageTranslations(this.getPlugin());
 
         // Add any commands you want registered here
-//        addCommand(new CommandEquip(this.getPlugin()));
-//        addCommand(new CommandForceEquip(this.getPlugin()));
-//        addCommand(new CommandForceUnequip(this.getPlugin()));
-//        addCommand(new CommandReload(this.getPlugin()));
-//        addCommand(new CommandUnequip(this.getPlugin()));
+        addCommand(new CommandReload(this.getPlugin()));
+        addCommand(new CommandAdd(this.getPlugin()));
 
         // Register all commands staged
         registerCommands();
@@ -84,6 +86,16 @@ public class CommandCore implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, String[] args) {
+        if (args.length == 0) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(ChatColor.RED + "You're not a player!");
+                return false;
+            }
+
+            BlockMasterGUI.open(((Player) sender));
+            return true;
+        }
+
         // Define what a subcommand really is
         String subcommand = args[0].toLowerCase();
         String[] subcommandArgs = Arrays.copyOfRange(args, 1, args.length);
