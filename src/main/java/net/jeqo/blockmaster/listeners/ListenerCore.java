@@ -11,8 +11,7 @@ import java.util.ArrayList;
 /**
  * Core class for handling listeners
  */
-@Setter
-@Getter
+@Setter @Getter
 public class ListenerCore {
     private BlockMaster plugin;
     private ArrayList<Listener> listeners;

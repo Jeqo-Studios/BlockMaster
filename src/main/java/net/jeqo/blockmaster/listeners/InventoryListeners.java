@@ -13,8 +13,15 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
+/**
+ * Handles all GUI interactions
+ */
 public class InventoryListeners implements Listener {
 
+    /**
+     *                  Handles the inventory click event in relation to the GUI
+     * @param event     The event to handle, type org.bukkit.event.inventory.InventoryClickEvent
+     */
     @EventHandler
     private void onInventoryClick(InventoryClickEvent event) {
         if (!event.getView().getTitle().startsWith(BlockMaster.getInstance().getConfig().getString("menu-title"))) return;

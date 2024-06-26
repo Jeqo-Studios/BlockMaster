@@ -166,13 +166,9 @@ public class BlockEvents implements Listener {
 
         Block pblock = event.getClickedBlock().getRelative(event.getBlockFace());
         EquipmentSlot slot = ItemUtils.getEquipmentSlot(inv, item);
-        // net.minecraft.server.v1_16_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-        //EnumHand hand = NMSUtils.parseEnumHand(ItemUtils.getEquipmentSlot(inv, item));
 
         Location eyeLoc = player.getEyeLocation();
-        // EntityPlayer human = NMSUtils.parseHuman(player);
 
-        // MovingObjectPositionBlock MOPB = NMSUtils.getMOPB(player, pblock.getLocation(), false);
         Location point = Utils.getInteractionPoint(eyeLoc, 8, true);
         assert point != null;
 

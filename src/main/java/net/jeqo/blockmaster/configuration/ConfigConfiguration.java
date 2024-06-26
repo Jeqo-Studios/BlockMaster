@@ -18,19 +18,22 @@ public class ConfigConfiguration {
      * The folder that stores the languages to be loaded
      */
     public static final String LANGUAGES_CONFIGURATION_FOLDER = "languages";
+    /**
+     * The folder that stores the block configurations
+     */
     public static final String BLOCKS_CONFIGURATION_FOLDER = "blocks";
 
     /**
-     * Copies the example balloons folder to the plugin's data folder if it doesn't exist
+     * Copies the example blocks folder to the plugin's data folder if it doesn't exist
      */
     public static void copyExampleBlocks() {
         // List of example balloon files
-        String[] exampleBalloons = new String[] {
+        String[] exampleBlocks = new String[] {
                 "/example_block.yml"
         };
 
-        // Save all example files in the balloons folder in /resources
-        for (String example : exampleBalloons) {
+        // Save all example files in the example blocks folder in /resources
+        for (String example : exampleBlocks) {
             File file = new File(BlockMaster.getInstance().getDataFolder() + File.separator + ConfigConfiguration.BLOCKS_CONFIGURATION_FOLDER + File.separator + example);
             if (file.exists()) continue;
 
@@ -38,6 +41,9 @@ public class ConfigConfiguration {
         }
     }
 
+    /**
+     * Loads all blocks from the configuration files and adds them to the block registry
+     */
     public static void loadBlocks() {
         File folder = new File(BlockMaster.getInstance().getDataFolder() + File.separator + BLOCKS_CONFIGURATION_FOLDER);
 
@@ -76,6 +82,7 @@ public class ConfigConfiguration {
             }
         }
 
-        Logger.logInfo(Languages.getMessage("prefix") + "Loaded " + CustomBlock.getRegistry().size() + " Custom Blocks");
+        // Log that the blocks have been loaded
+        Logger.logInfo(Languages.getMessage("prefix") + "Loaded " + CustomBlock.getRegistry().size() + " custom blocks!");
     }
 }
