@@ -1,3 +1,4 @@
+# An example of what a possible block configuration could look like
 example:
   id: "blockmaster:example"
   itemModelData: 1001

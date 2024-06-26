@@ -42,8 +42,7 @@ public class BlockEvents implements Listener {
 
         if (topBlock.getType() == Material.NOTE_BLOCK) {
             updateAndCheck(b.getLocation());
-            if (Tag.DOORS.isTagged(b.getType()) && b.getBlockData() instanceof Door) {
-                Door data = (Door) b.getBlockData();
+            if (Tag.DOORS.isTagged(b.getType()) && b.getBlockData() instanceof Door data) {
                 if (!data.getHalf().equals(Bisected.Half.TOP)) return;
                 Door d = (Door) bottomBlock.getBlockData();
                 d.setOpen(data.isOpen());
@@ -51,7 +50,6 @@ public class BlockEvents implements Listener {
                 bottomBlock.getState().update(true, false);
             }
             event.setCancelled(true);
-            //if (b.getType() == Material.NOTE_BLOCK) event.setCancelled(true);
             if (!Tag.SIGNS.isTagged(b.getType()) && !b.getType().equals(Material.LECTERN) && !b.getType().toString().contains("BEE"))
                 b.getState().update(true, false);
         }
@@ -124,8 +122,7 @@ public class BlockEvents implements Listener {
         else if (Tag.STAIRS.isTagged(item.getType())) {
             BlockMaster.getNmsHandler().placeItem(player, item, pblock, slot);
             //nmsItem.placeItem(new ItemActionContext(human, hand, MOPB), hand);
-            if (!(pblock.getBlockData() instanceof Stairs)) return;
-            Stairs data = (Stairs) pblock.getBlockData();
+            if (!(pblock.getBlockData() instanceof Stairs data)) return;
             data.setHalf(point.getY() < .5d && point.getY() >= 0d
                     ? Bisected.Half.BOTTOM
                     : Bisected.Half.TOP);
@@ -148,7 +145,7 @@ public class BlockEvents implements Listener {
                 pblock.setBlockData(data);
             }
         } else
-            BlockMaster.getNmsHandler().placeItem(player, item, pblock, slot);//nmsItem.placeItem(new ItemActionContext(human, hand, MOPB), hand);
+            BlockMaster.getNmsHandler().placeItem(player, item, pblock, slot);
     }
 
     @EventHandler
@@ -168,8 +165,6 @@ public class BlockEvents implements Listener {
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
         ArrayList<Block> blockList = new ArrayList<>(event.blockList());
-        // A concurrent modification exception occurs when you edit a list whilst
-        // looping through it
 
         blockList.stream()
                 .filter(b -> b.getType() == Material.NOTE_BLOCK && CustomBlock.isCustomBlock(b))

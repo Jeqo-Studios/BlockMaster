@@ -148,7 +148,7 @@ public class CustomBlock {
      * @return                  The item, type org.bukkit.inventory.ItemStack
      */
     public ItemStack getItemStack(boolean visibleBlockId) {
-        ItemStack item = new ItemStack(this.getMaterial() == null ? Material.getMaterial(BlockMaster.getInstance().getConfig().getString("menu-item-material")) : this.getMaterial());
+        ItemStack item = new ItemStack(this.getMaterial() == null ? Objects.requireNonNull(Material.getMaterial(Objects.requireNonNull(BlockMaster.getInstance().getConfig().getString("menu-item-material")))) : this.getMaterial());
         item = ItemUtils.setItemId(item, this.getId());
         item = ItemUtils.setComponentName(item,
                 new ComponentBuilder(new TranslatableComponent(String.format("customblocks.item.%s.name", this.getId()))).italic(false).create());

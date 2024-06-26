@@ -16,11 +16,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class CommonNMSHandler extends NMSHandler {
-    private Class<?> enumHandClass, itemActionContextClass, mopbClass;
-    private Object mainHand, offHand;
-    private Class<?> vec3DClass, blockPositionClass;
+    private final Class<?> enumHandClass, itemActionContextClass, mopbClass;
+    private final Object mainHand, offHand;
+    private final Class<?> vec3DClass, blockPositionClass;
 
-    private Class<?> craftPlayerClass, craftItemStackClass;
+    private final Class<?> craftPlayerClass, craftItemStackClass;
 
     public CommonNMSHandler() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         final String nmsVersion = CommonUtils.getNMSVersion();
@@ -81,7 +81,7 @@ public class CommonNMSHandler extends NMSHandler {
                 method = human.getClass().getDeclaredMethod("ct");
             }
             Object direction = method.invoke(human);
-            Constructor constructor = mopbClass.getConstructor(vec3DClass, direction.getClass(), blockPositionClass, boolean.class);
+            Constructor<?> constructor = mopbClass.getConstructor(vec3DClass, direction.getClass(), blockPositionClass, boolean.class);
             return constructor.newInstance(
                     toVec3D(source.toVector()),
                     direction, toBlockPos(block), false
@@ -100,7 +100,7 @@ public class CommonNMSHandler extends NMSHandler {
 
     private Object toVec3D(@NotNull Vector vec) {
         try {
-            Constructor constructor = vec3DClass.getConstructor(double.class, double.class, double.class);
+            Constructor<?> constructor = vec3DClass.getConstructor(double.class, double.class, double.class);
             return constructor.newInstance(vec.getX(), vec.getY(), vec.getZ());
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
                  IllegalAccessException e) {
@@ -110,7 +110,7 @@ public class CommonNMSHandler extends NMSHandler {
 
     private Object toBlockPos(@NotNull Block block) {
         try {
-            Constructor constructor = blockPositionClass.getConstructor(int.class, int.class, int.class);
+            Constructor<?> constructor = blockPositionClass.getConstructor(int.class, int.class, int.class);
             return constructor.newInstance(block.getX(), block.getY(), block.getZ());
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
                  IllegalAccessException e) {

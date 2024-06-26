@@ -10,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * Contains item related utilities to aid and assist in item manipulation
  */
@@ -80,7 +82,7 @@ public class ItemUtils {
             if (ItemUtils.isAirOrNull(i)) continue;
             CustomBlock CB = CustomBlock.getCustomBlockByItem(i);
             if (CB == null) continue;
-            Material expected = CB.getMaterial() != null ? CB.getMaterial() : Material.matchMaterial(BlockMaster.getInstance().getConfig().getString("menu-item-material"));
+            Material expected = CB.getMaterial() != null ? CB.getMaterial() : Material.matchMaterial(Objects.requireNonNull(BlockMaster.getInstance().getConfig().getString("menu-item-material")));
             if (i.getType() == expected) return i;
         }
         return null;

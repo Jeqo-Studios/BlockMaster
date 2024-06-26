@@ -24,7 +24,7 @@ public class InventoryListeners implements Listener {
      */
     @EventHandler
     private void onInventoryClick(InventoryClickEvent event) {
-        if (!event.getView().getTitle().startsWith(BlockMaster.getInstance().getConfig().getString("menu-title"))) return;
+        if (!event.getView().getTitle().startsWith(Objects.requireNonNull(BlockMaster.getInstance().getConfig().getString("menu-title")))) return;
         event.setCancelled(true);
 
         Inventory inv = event.getClickedInventory();
