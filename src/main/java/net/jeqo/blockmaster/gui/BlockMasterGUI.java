@@ -2,7 +2,7 @@ package net.jeqo.blockmaster.gui;
 
 import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
-import net.jeqo.blockmaster.utils.Utils;
+import net.jeqo.blockmaster.CommonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -45,7 +45,7 @@ public class BlockMasterGUI {
 
         page = Math.max(1, Math.min(page, totalPages)); // Set page range to 1 >= page >= totalPages
 
-        Inventory inv = Bukkit.createInventory(null, 54, BlockMaster.getInstance().getConfig().getString("menu-title") + Utils.colorize(" [" + page + "/" + totalPages + "]"));
+        Inventory inv = Bukkit.createInventory(null, 54, BlockMaster.getInstance().getConfig().getString("menu-title") + CommonUtils.colorize(" [" + page + "/" + totalPages + "]"));
 
         for (int i = (9 * 5); i < (9 * 6); i++) {
             ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -89,7 +89,7 @@ public class BlockMasterGUI {
 
         assert item.getItemMeta() != null;
         SkullMeta meta = getSkullMetaTexture(((SkullMeta) item.getItemMeta()), texture);
-        meta.setDisplayName(Utils.colorize("&aBack"));
+        meta.setDisplayName(CommonUtils.colorize("&aBack"));
         item.setItemMeta(meta);
         return item;
     }
@@ -106,8 +106,8 @@ public class BlockMasterGUI {
 
         assert item.getItemMeta() != null;
         SkullMeta meta = getSkullMetaTexture(((SkullMeta) item.getItemMeta()), texture);
-        meta.setDisplayName(Utils.colorize("&aPage " + page + "/" + totalPages));
-        meta.setLore(Collections.singletonList(Utils.colorize("&a&lLeft Click &r&8Go back to page 1")));
+        meta.setDisplayName(CommonUtils.colorize("&aPage " + page + "/" + totalPages));
+        meta.setLore(Collections.singletonList(CommonUtils.colorize("&a&lLeft Click &r&8Go back to page 1")));
         item.setItemMeta(meta);
         return item;
     }
@@ -122,7 +122,7 @@ public class BlockMasterGUI {
 
         assert item.getItemMeta() != null;
         SkullMeta meta = getSkullMetaTexture(((SkullMeta) item.getItemMeta()), texture);
-        meta.setDisplayName(Utils.colorize("&aNext"));
+        meta.setDisplayName(CommonUtils.colorize("&aNext"));
         item.setItemMeta(meta);
         return item;
     }

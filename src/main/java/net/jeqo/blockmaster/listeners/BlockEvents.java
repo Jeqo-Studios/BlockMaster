@@ -5,8 +5,8 @@ import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.blocks.custom.CustomBlockData;
 import net.jeqo.blockmaster.blocks.directional.DirectionalBlock;
 import net.jeqo.blockmaster.blocks.interactable.InteractableBlock;
-import net.jeqo.blockmaster.utils.ItemUtils;
-import net.jeqo.blockmaster.utils.Utils;
+import net.jeqo.blockmaster.items.ItemUtils;
+import net.jeqo.blockmaster.CommonUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -113,7 +113,7 @@ public class BlockEvents implements Listener {
 
         Location eyeLoc = player.getEyeLocation();
 
-        Location point = Utils.getInteractionPoint(eyeLoc, 8, true);
+        Location point = CommonUtils.getInteractionPoint(eyeLoc, 8, true);
         assert point != null;
 
         if (REPLACE.contains(event.getClickedBlock().getType()) || (event.getClickedBlock().getType().equals(Material.SNOW) && ((Snow) event.getClickedBlock().getBlockData()).getLayers() == 1))
@@ -210,7 +210,7 @@ public class BlockEvents implements Listener {
             Bukkit.getPluginManager().callEvent(e);
             if (e.isCancelled()) return false;
 
-            if (!Utils.getEntitiesOnBlock(e.getBlock(), en -> en instanceof LivingEntity).isEmpty())
+            if (!CommonUtils.getEntitiesOnBlock(e.getBlock(), en -> en instanceof LivingEntity).isEmpty())
                 return false;
 
             if (CB instanceof DirectionalBlock) {
@@ -220,7 +220,7 @@ public class BlockEvents implements Listener {
                 else if (pitch >= 45) face = BlockFace.UP;
                 ((DirectionalBlock) CB).place(e.getBlock(), face);
             } else CB.place(e);
-            if (!Utils.getEntitiesOnBlock(placedBlock, entity -> !(entity instanceof Item || entity instanceof ItemFrame)).isEmpty())
+            if (!CommonUtils.getEntitiesOnBlock(placedBlock, entity -> !(entity instanceof Item || entity instanceof ItemFrame)).isEmpty())
                 return false;
 
             BlockMaster.getNmsHandler().swingHand(p, ItemUtils.getEquipmentSlot(inv, item));

@@ -5,8 +5,8 @@ import lombok.Setter;
 import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.directional.DirectionalBlock;
 import net.jeqo.blockmaster.blocks.directional.DirectionalCustomBlock;
-import net.jeqo.blockmaster.utils.ItemUtils;
-import net.jeqo.blockmaster.utils.Utils;
+import net.jeqo.blockmaster.items.ItemUtils;
+import net.jeqo.blockmaster.CommonUtils;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.apache.commons.lang3.Validate;
@@ -156,7 +156,7 @@ public class CustomBlock {
         if (meta != null) {
             meta.setCustomModelData(this.getCustomModelData());
             meta.setDisplayName(this.getKey());
-            if (visibleBlockId) meta.setLore(Collections.singletonList(Utils.colorize("&r&8" + this.getId())));
+            if (visibleBlockId) meta.setLore(Collections.singletonList(CommonUtils.colorize("&r&8" + this.getId())));
         }
         item.setItemMeta(meta);
 

@@ -3,7 +3,7 @@ package net.jeqo.blockmaster.listeners;
 import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.gui.BlockMasterGUI;
-import net.jeqo.blockmaster.utils.ItemUtils;
+import net.jeqo.blockmaster.items.ItemUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

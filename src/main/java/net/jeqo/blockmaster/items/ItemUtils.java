@@ -1,4 +1,4 @@
-package net.jeqo.blockmaster.utils;
+package net.jeqo.blockmaster.items;
 
 import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;

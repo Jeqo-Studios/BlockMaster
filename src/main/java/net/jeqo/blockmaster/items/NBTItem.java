@@ -1,4 +1,4 @@
-package net.jeqo.blockmaster.utils;
+package net.jeqo.blockmaster.items;
 
 import lombok.Getter;
 import lombok.Setter;

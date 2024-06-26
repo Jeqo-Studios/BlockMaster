@@ -1,6 +1,5 @@
-package net.jeqo.blockmaster.utils;
+package net.jeqo.blockmaster;
 
-import net.jeqo.blockmaster.BlockMaster;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.FluidCollisionMode;
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class Utils {
+public class CommonUtils {
 
     public static String getNMSVersion() {
         String version = BlockMaster.getInstance().getServer().getClass().getPackage().getName();

@@ -1,6 +1,6 @@
 package net.jeqo.blockmaster.nms;
 
-import net.jeqo.blockmaster.utils.Utils;
+import net.jeqo.blockmaster.CommonUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -23,7 +23,7 @@ public class CommonNMSHandler extends NMSHandler {
     private Class<?> craftPlayerClass, craftItemStackClass;
 
     public CommonNMSHandler() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
-        final String nmsVersion = Utils.getNMSVersion();
+        final String nmsVersion = CommonUtils.getNMSVersion();
         final String nmsPackageName = "net.minecraft.world.";
         final String cbPackageName = "org.bukkit.craftbukkit." + nmsVersion + ".";
         enumHandClass = Class.forName(nmsPackageName + "EnumHand");
