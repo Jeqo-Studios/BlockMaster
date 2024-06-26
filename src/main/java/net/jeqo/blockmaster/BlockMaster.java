@@ -3,6 +3,7 @@ package net.jeqo.blockmaster;
 import lombok.Getter;
 import lombok.Setter;
 import net.jeqo.blockmaster.logger.Logger;
+import net.jeqo.blockmaster.message.Languages;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BlockMaster extends JavaPlugin {
@@ -17,6 +18,8 @@ public final class BlockMaster extends JavaPlugin {
         // Log the initial startup message
         Logger.logInitialStartup();
 
+        // Copy all language files over from the languages directory
+        Languages.copyLanguageFiles();
 
         // Log the final startup message
         Logger.logFinalStartup();

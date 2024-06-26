@@ -1,2 +1,5 @@
 messages:
   prefix: '<gradient:#0a306e:#c2d3ed>[BlockMaster]</gradient> <white>'
+  no-permission: '<#fc1c1c>Access denied.'
+  config-reloaded: '<green>Config reloaded.'
+  command-disabled: '<#fc1c1c>This command is currently disabled!'
