@@ -3,6 +3,7 @@ package net.jeqo.blockmaster.configuration;
 import lombok.Getter;
 import lombok.Setter;
 import net.jeqo.blockmaster.BlockMaster;
+import net.jeqo.blockmaster.blocks.BlockRegistry;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.logger.Logger;
 import net.jeqo.blockmaster.message.Languages;
@@ -60,7 +61,7 @@ public class ConfigConfiguration {
             return;
         }
 
-        CustomBlock.clear();
+        BlockRegistry.clear();
 
         // Loop through each file in the blocks directory
         for (File file : files) {
@@ -77,12 +78,12 @@ public class ConfigConfiguration {
 
                 // Process each key in the section
                 for (String key : section.getKeys(false)) {
-                    CustomBlock.deserialize(config, key);
+                    BlockRegistry.deserialize(config, key);
                 }
             }
         }
 
         // Log that the blocks have been loaded
-        Logger.logInfo(Languages.getMessage("prefix") + "Loaded " + CustomBlock.getRegistry().size() + " custom blocks!");
+        Logger.logInfo(Languages.getMessage("prefix") + "Loaded " + BlockRegistry.getRegistry().size() + " custom blocks!");
     }
 }

@@ -1,5 +1,6 @@
 package net.jeqo.blockmaster.commands.manager;
 
+import net.jeqo.blockmaster.blocks.BlockRegistry;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import org.bukkit.Instrument;
 import org.bukkit.command.CommandSender;
@@ -40,7 +41,7 @@ public class CommandTabCompleter implements TabCompleter {
                     return null;
                 if (args[0].equalsIgnoreCase("add"))
                     return Arrays.asList(
-                            CustomBlock.getRegistry().stream().map(CustomBlock::getId).collect(Collectors.toList()),    // block id
+                            BlockRegistry.getRegistry().stream().map(CustomBlock::getId).collect(Collectors.toList()),    // block id
                             Collections.singletonList("(example) 0"), // customModelData
                             Arrays.stream(Instrument.values()).map(Enum::toString).collect(Collectors.toList()),           // instruments
                             allPitchNumbers(),  // note

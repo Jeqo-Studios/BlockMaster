@@ -3,11 +3,11 @@ package net.jeqo.blockmaster.commands.manager;
 import lombok.Getter;
 import net.jeqo.blockmaster.commands.CommandAdd;
 import net.jeqo.blockmaster.commands.CommandReload;
+import net.jeqo.blockmaster.commands.CommandRemove;
 import net.jeqo.blockmaster.commands.manager.types.CommandAccess;
 import net.jeqo.blockmaster.configuration.PluginConfiguration;
 import net.jeqo.blockmaster.gui.BlockMasterGUI;
 import net.jeqo.blockmaster.message.Languages;
-import net.jeqo.blockmaster.message.MessageTranslations;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,7 +26,6 @@ import java.util.Objects;
 public class CommandCore implements CommandExecutor {
     private final ArrayList<Command> commands;
     private final JavaPlugin plugin;
-    private final MessageTranslations messageTranslations;
 
     /**
      *                          Creates a new instance of the command core
@@ -35,11 +34,11 @@ public class CommandCore implements CommandExecutor {
     public CommandCore(JavaPlugin providedPlugin) {
         this.plugin = providedPlugin;
         this.commands = new ArrayList<>();
-        this.messageTranslations = new MessageTranslations(this.getPlugin());
 
         // Add any commands you want registered here
         addCommand(new CommandReload(this.getPlugin()));
         addCommand(new CommandAdd(this.getPlugin()));
+        addCommand(new CommandRemove(this.getPlugin()));
 
         // Register all commands staged
         registerCommands();

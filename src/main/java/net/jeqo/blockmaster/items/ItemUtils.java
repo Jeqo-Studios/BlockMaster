@@ -1,6 +1,7 @@
 package net.jeqo.blockmaster.items;
 
 import net.jeqo.blockmaster.BlockMaster;
+import net.jeqo.blockmaster.blocks.BlockRegistry;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -31,9 +32,9 @@ public class ItemUtils {
      * @return          The block or custom block in the player's hand, type org.bukkit.inventory.ItemStack
      */
     public static ItemStack getBlockOrCustomBlockInHand(@NotNull PlayerInventory inv) {
-        return (inv.getItemInMainHand().getType().isBlock() || CustomBlock.getCustomBlockByItem(inv.getItemInMainHand()) != null) && inv.getItemInMainHand().getType() != Material.AIR
+        return (inv.getItemInMainHand().getType().isBlock() || BlockRegistry.getCustomBlockByItem(inv.getItemInMainHand()) != null) && inv.getItemInMainHand().getType() != Material.AIR
                 ? inv.getItemInMainHand()
-                : (inv.getItemInOffHand().getType().isBlock() || CustomBlock.getCustomBlockByItem(inv.getItemInOffHand()) != null) && inv.getItemInOffHand().getType() != Material.AIR
+                : (inv.getItemInOffHand().getType().isBlock() || BlockRegistry.getCustomBlockByItem(inv.getItemInOffHand()) != null) && inv.getItemInOffHand().getType() != Material.AIR
                 ? inv.getItemInOffHand()
                 : null;
     }
@@ -80,7 +81,7 @@ public class ItemUtils {
 
         for (ItemStack i : hands) {
             if (ItemUtils.isAirOrNull(i)) continue;
-            CustomBlock CB = CustomBlock.getCustomBlockByItem(i);
+            CustomBlock CB = BlockRegistry.getCustomBlockByItem(i);
             if (CB == null) continue;
             Material expected = CB.getMaterial() != null ? CB.getMaterial() : Material.matchMaterial(Objects.requireNonNull(BlockMaster.getInstance().getConfig().getString("menu-item-material")));
             if (i.getType() == expected) return i;

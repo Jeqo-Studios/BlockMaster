@@ -1,12 +1,13 @@
 package net.jeqo.blockmaster.listeners;
 
 import net.jeqo.blockmaster.BlockMaster;
+import net.jeqo.blockmaster.blocks.BlockRegistry;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.blocks.custom.CustomBlockData;
 import net.jeqo.blockmaster.blocks.directional.DirectionalBlock;
 import net.jeqo.blockmaster.blocks.interactable.InteractableBlock;
 import net.jeqo.blockmaster.items.ItemUtils;
-import net.jeqo.blockmaster.CommonUtils;
+import net.jeqo.blockmaster.Essentials;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -58,7 +59,7 @@ public class BlockListeners implements Listener {
     @EventHandler
     public void onNoteBlockPhysics(BlockPhysicsEvent event) {
         if (!event.getBlock().getType().equals(Material.NOTE_BLOCK)) return;
-        CustomBlock cb = CustomBlock.getCustomBlockbyData(new CustomBlockData(event.getBlock()));
+        CustomBlock cb = BlockRegistry.getCustomBlockbyData(new CustomBlockData(event.getBlock()));
         if (cb != null) cb.onPhysics(event.getBlock(), event.getSourceBlock());
     }
 
@@ -89,7 +90,7 @@ public class BlockListeners implements Listener {
 
         event.setCancelled(true);
         if (!antiFastPlace.contains(event.getPlayer().getUniqueId()) && CustomBlock.isCustomBlock(event.getClickedBlock()) && !(event.getPlayer().isSneaking() && !ItemUtils.isAirOrNull(event.getPlayer().getInventory().getItemInMainHand()))) {
-            CustomBlock cb = CustomBlock.getCustomBlockbyData(new CustomBlockData((NoteBlock) event.getClickedBlock().getBlockData()));
+            CustomBlock cb = BlockRegistry.getCustomBlockbyData(new CustomBlockData((NoteBlock) event.getClickedBlock().getBlockData()));
             if (cb instanceof InteractableBlock) {
                 ((InteractableBlock) cb).onInteract(event.getPlayer(), event.getClickedBlock());
                 return;
@@ -111,7 +112,7 @@ public class BlockListeners implements Listener {
 
         Location eyeLoc = player.getEyeLocation();
 
-        Location point = CommonUtils.getInteractionPoint(eyeLoc, 8, true);
+        Location point = Essentials.getInteractionPoint(eyeLoc, 8, true);
         assert point != null;
 
         if (REPLACE.contains(event.getClickedBlock().getType()) || (event.getClickedBlock().getType().equals(Material.SNOW) && ((Snow) event.getClickedBlock().getBlockData()).getLayers() == 1))
@@ -155,7 +156,7 @@ public class BlockListeners implements Listener {
             return;
         if (event.isCancelled()) return;
         NoteBlock NBData = (NoteBlock) event.getBlock().getBlockData();
-        CustomBlock CB = CustomBlock.getCustomBlockbyData(new CustomBlockData(NBData));
+        CustomBlock CB = BlockRegistry.getCustomBlockbyData(new CustomBlockData(NBData));
         if (CB == null) return;
         event.setDropItems(false);
         event.setExpToDrop(0);
@@ -167,12 +168,12 @@ public class BlockListeners implements Listener {
         ArrayList<Block> blockList = new ArrayList<>(event.blockList());
 
         blockList.stream()
-                .filter(b -> b.getType() == Material.NOTE_BLOCK && CustomBlock.isCustomBlock(b))
-                .forEach(b -> {
-                    event.blockList().remove(b);
-                    CustomBlock CB = CustomBlock.getCustomBlockbyData(new CustomBlockData((NoteBlock) b.getBlockData()));
-                    if (CB != null) CB.mine(b);
-                    b.setType(Material.AIR);
+                .filter(block -> block.getType() == Material.NOTE_BLOCK && CustomBlock.isCustomBlock(block))
+                .forEach(block -> {
+                    event.blockList().remove(block);
+                    CustomBlock CB = BlockRegistry.getCustomBlockbyData(new CustomBlockData((NoteBlock) block.getBlockData()));
+                    if (CB != null) CB.rewardCustomBlockItem(block);
+                    block.setType(Material.AIR);
                 });
     }
 
@@ -184,7 +185,7 @@ public class BlockListeners implements Listener {
             ItemStack item = ItemUtils.getFirstCustomBlockInHand(inv);
             if (ItemUtils.isAirOrNull(item) || event.getClickedBlock() == null) return false;
 
-            CustomBlock CB = CustomBlock.getCustomBlockByItem(item);
+            CustomBlock CB = BlockRegistry.getCustomBlockByItem(item);
             if (CB == null) return false;
             event.setCancelled(true);
 
@@ -205,7 +206,7 @@ public class BlockListeners implements Listener {
             Bukkit.getPluginManager().callEvent(e);
             if (e.isCancelled()) return false;
 
-            if (!CommonUtils.getEntitiesOnBlock(e.getBlock(), en -> en instanceof LivingEntity).isEmpty())
+            if (!Essentials.getEntitiesOnBlock(e.getBlock(), en -> en instanceof LivingEntity).isEmpty())
                 return false;
 
             if (CB instanceof DirectionalBlock) {
@@ -215,7 +216,7 @@ public class BlockListeners implements Listener {
                 else if (pitch >= 45) face = BlockFace.UP;
                 ((DirectionalBlock) CB).place(e.getBlock(), face);
             } else CB.place(e);
-            if (!CommonUtils.getEntitiesOnBlock(placedBlock, entity -> !(entity instanceof Item || entity instanceof ItemFrame)).isEmpty())
+            if (!Essentials.getEntitiesOnBlock(placedBlock, entity -> !(entity instanceof Item || entity instanceof ItemFrame)).isEmpty())
                 return false;
 
             BlockMaster.getNmsHandler().swingHand(p, ItemUtils.getEquipmentSlot(inv, item));

@@ -13,6 +13,8 @@
 </div>
 
 ## What is BlockMaster?
+BlockMaster is an old project of mine that I hope to continue working on. This is very old code I started with and this aims to clean everything up to a stable state.
+
 BlockMaster is an easy-to use Minecraft plugin that aims to allow players and users to create and manage custom blocks with ease. We know it can be tricky to make custom blocks or models in Minecraft Java Edition, but this makes it easy!
 
 **Consider supporting us by joining our [Discord](https://jeqo.net/discord)**

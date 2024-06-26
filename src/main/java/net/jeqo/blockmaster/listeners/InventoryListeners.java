@@ -1,6 +1,7 @@
 package net.jeqo.blockmaster.listeners;
 
 import net.jeqo.blockmaster.BlockMaster;
+import net.jeqo.blockmaster.blocks.BlockRegistry;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.gui.BlockMasterGUI;
 import net.jeqo.blockmaster.items.ItemUtils;
@@ -34,7 +35,7 @@ public class InventoryListeners implements Listener {
         ItemStack item = inv.getItem(slot);
         if (ItemUtils.isAirOrNull(item)) return;
 
-        CustomBlock cb = CustomBlock.getCustomBlockByItem(item);
+        CustomBlock cb = BlockRegistry.getCustomBlockByItem(item);
         Player player = (Player) event.getView().getPlayer();
 
         if (cb != null && slot < 45) {

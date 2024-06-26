@@ -1,7 +1,9 @@
 # An example of what a possible block configuration could look like
 example:
   id: "blockmaster:example"
-  itemModelData: 1001
-  instrument: BANJO
-  note: 1
-  powered: false
+  item:
+    custom-model-data: 1001
+  block:
+    instrument: BANJO
+    note: 1
+    powered: false

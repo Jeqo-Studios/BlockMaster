@@ -1,6 +1,7 @@
 package net.jeqo.blockmaster.blocks.api;
 
 import net.jeqo.blockmaster.BlockMaster;
+import net.jeqo.blockmaster.blocks.BlockRegistry;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.blocks.custom.CustomBlockData;
 import net.jeqo.blockmaster.configuration.ConfigConfiguration;
@@ -21,14 +22,14 @@ public class BlockMasterAPI {
      * @return  The list of custom blocks, type java.util.List[net.jeqo.blockmaster.blocks.custom.CustomBlock]
      */
     public static List<CustomBlock> getRegistry() {
-        return CustomBlock.getRegistry();
+        return BlockRegistry.getRegistry();
     }
 
     /**
      * Clears the custom block registry
      */
     public static void clearRegistry() {
-        CustomBlock.clear();
+        BlockRegistry.clear();
     }
 
     /**
@@ -40,7 +41,7 @@ public class BlockMasterAPI {
     }
 
     public static void register(boolean replaceIfExists, @NotNull CustomBlock... blocks) {
-        Arrays.stream(blocks).forEach(block -> CustomBlock.register(block, replaceIfExists));
+        Arrays.stream(blocks).forEach(block -> BlockRegistry.register(block, replaceIfExists));
     }
 
     /**
@@ -48,7 +49,7 @@ public class BlockMasterAPI {
      * @param blocks    The custom blocks to unregister, type net.jeqo.blockmaster.blocks.custom.CustomBlock
      */
     public static void unregister(@NotNull CustomBlock... blocks) {
-        Arrays.stream(blocks).map(CustomBlock::getId).forEach(CustomBlock::unregister);
+        Arrays.stream(blocks).map(CustomBlock::getId).forEach(BlockRegistry::unregister);
     }
 
     /**
@@ -57,7 +58,7 @@ public class BlockMasterAPI {
      * @return         The custom block, type net.jeqo.blockmaster.blocks.custom.CustomBlock
      */
     public static CustomBlock getCustomBlock(@NotNull String id) {
-        return CustomBlock.getCustomBlockbyId(id);
+        return BlockRegistry.getCustomBlockbyId(id);
     }
 
     /**
@@ -66,7 +67,7 @@ public class BlockMasterAPI {
      * @return         The custom block, type net.jeqo.blockmaster.blocks.custom.CustomBlock
      */
     public static CustomBlock getCustomBlock(@NotNull ItemStack item) {
-        return CustomBlock.getCustomBlockByItem(item);
+        return BlockRegistry.getCustomBlockByItem(item);
     }
 
     /**
@@ -75,7 +76,7 @@ public class BlockMasterAPI {
      * @return      The custom block, type net.jeqo.blockmaster.blocks.custom.CustomBlock
      */
     public static CustomBlock getCustomBlock(@NotNull CustomBlockData data) {
-        return CustomBlock.getCustomBlockbyData(data);
+        return BlockRegistry.getCustomBlockbyData(data);
     }
 
     /**

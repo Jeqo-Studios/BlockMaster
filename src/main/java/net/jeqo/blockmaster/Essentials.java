@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 /**
  * Common utilities used throughout the plugin
  */
-public class CommonUtils {
+public class Essentials {
 
     /**
      *              Gets the NMS version of the server

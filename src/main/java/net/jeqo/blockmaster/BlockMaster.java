@@ -2,8 +2,8 @@ package net.jeqo.blockmaster;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.jeqo.blockmaster.blocks.BlockRegistry;
 import net.jeqo.blockmaster.blocks.api.BlockMasterLoadEvent;
-import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.commands.manager.CommandCore;
 import net.jeqo.blockmaster.configuration.ConfigConfiguration;
 import net.jeqo.blockmaster.listeners.BlockListeners;
@@ -16,6 +16,9 @@ import net.jeqo.blockmaster.nms.NMSHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * The main class that is used to initialize and start all tasks for the block master plugin
+ */
 public final class BlockMaster extends JavaPlugin {
     @Getter @Setter
     private static BlockMaster instance;
@@ -35,7 +38,7 @@ public final class BlockMaster extends JavaPlugin {
         Logger.logInitialStartup();
 
         // Clear the custom blocks list
-        CustomBlock.clear();
+        BlockRegistry.clear();
 
         // Copy all language files over from the languages directory
         Languages.copyLanguageFiles();
@@ -50,17 +53,17 @@ public final class BlockMaster extends JavaPlugin {
         setListenerCore(new ListenerCore(this));
 
         // Set the NMS handler
-        final String mcVersion = CommonUtils.getMinecraftVersion(),
-                nmsVersion = CommonUtils.getNMSVersion();
+        final String mcVersion = Essentials.getMinecraftVersion(),
+                nmsVersion = Essentials.getNMSVersion();
         Logger.logInfo(Languages.getMessage("prefix") + "Loading NMS Handler...");
         nmsHandler = NMSHandler.getHandler(mcVersion, nmsVersion);
         if (nmsHandler == null) {
-            Logger.logInfo(Languages.getMessage("prefix") + CommonUtils.colorize("&cNo NMSHandler found! Using common one"));
+            Logger.logInfo(Languages.getMessage("prefix") + Essentials.colorize("&cNo NMSHandler found! Using common one"));
             try {
                 nmsHandler = new CommonNMSHandler();
             } catch (Exception e) {
                 e.printStackTrace();
-                Logger.logInfo(Languages.getMessage("prefix") + CommonUtils.colorize("&cCommonNMS can't support this version! Disabling plugin"));
+                Logger.logInfo(Languages.getMessage("prefix") + Essentials.colorize("&cCommonNMS can't support this version! Disabling plugin"));
                 Bukkit.getPluginManager().disablePlugin(this);
                 return;
             }

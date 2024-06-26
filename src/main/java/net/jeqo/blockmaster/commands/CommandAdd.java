@@ -1,5 +1,6 @@
 package net.jeqo.blockmaster.commands;
 
+import net.jeqo.blockmaster.blocks.BlockRegistry;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.commands.manager.Command;
 import net.jeqo.blockmaster.commands.manager.types.CommandPermission;
@@ -31,7 +32,7 @@ public class CommandAdd extends Command {
         try {
             // Create and register a custom block with the given arguments temporarily
             CustomBlock customBlock = new CustomBlock(args[0], args[0], Integer.parseInt(args[1]), Instrument.valueOf(args[2]), Integer.parseInt(args[3]), args[4].equalsIgnoreCase("true"));
-            CustomBlock.register(customBlock, false);
+            BlockRegistry.register(customBlock, false);
 
             sender.sendMessage(Languages.getMessage("prefix") + "Block " + args[0] + " added sucessfully");
         } catch (Exception e) {
