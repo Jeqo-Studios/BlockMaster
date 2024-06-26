@@ -15,6 +15,6 @@ check-for-updates: true
 # The language file to load. This will be used for all messages in the plugin.
 language: en_US
 # The title that is displayed in the GUI
-menu-title: "&f"
+menu-title: "BlockMaster Menu"
 # The item that is used to display blocks in the GUI
 menu-item-material: PAPER

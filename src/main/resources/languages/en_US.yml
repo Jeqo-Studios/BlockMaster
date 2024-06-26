@@ -1,9 +1,9 @@
 messages:
-  prefix: '&9[&bBlockMaster&9]&f '
-  no-permission: '&cAccess denied.'
-  player-not-found: '&cPlayer not found.'
-  config-reloaded: '&aConfig reloaded.'
-  command-disabled: '&cThis command is currently disabled!'
+  prefix: '§9[§bBlockMaster§9]§f '
+  no-permission: '§cAccess denied.'
+  player-not-found: '§cPlayer not found.'
+  config-reloaded: '§aConfig reloaded.'
+  command-disabled: '§cThis command is currently disabled!'
 
   configuration-folder-not-found: 'Configuration folder not found: %s'
   no-configuration-files-found: 'No configuration files found in the folder: %s'
