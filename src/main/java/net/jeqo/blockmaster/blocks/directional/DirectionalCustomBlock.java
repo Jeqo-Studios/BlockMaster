@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * A directional custom block to take into account block rotation
+ */
 public class DirectionalCustomBlock extends CustomBlock implements DirectionalBlock {
     private final HashMap<BlockFace, CustomBlockData> VARIANTS = new HashMap<>();
 

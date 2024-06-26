@@ -9,6 +9,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+/**
+ * A utility class intended to help add NBT data to items
+ */
 @Getter @Setter
 public class NBTItem extends ItemStack {
     private ItemStack item;

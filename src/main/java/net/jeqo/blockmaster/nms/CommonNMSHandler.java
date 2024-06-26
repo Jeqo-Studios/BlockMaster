@@ -92,8 +92,6 @@ public class CommonNMSHandler extends NMSHandler {
         }
     }
 
-    //
-
     private Object getHand(@NotNull EquipmentSlot slot) {
         if (slot == EquipmentSlot.HAND) return mainHand;
         if (slot == EquipmentSlot.OFF_HAND) return offHand;

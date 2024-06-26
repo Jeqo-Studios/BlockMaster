@@ -9,6 +9,4 @@ messages:
   no-configuration-files-found: 'No configuration files found in the folder: %s'
   configuration-section-not-found: 'Configuration section not found for file: %s'
 
-  menu-slot-out-of-bounds: '%s menu page button slot(s) out of bounds!'
-
   invalid-hex-code: 'Invalid hex code: %s'

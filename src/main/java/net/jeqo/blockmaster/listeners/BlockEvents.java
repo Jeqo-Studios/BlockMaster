@@ -81,6 +81,106 @@ public class BlockEvents implements Listener {
         event.setCancelled(true);
     }
 
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        assert event.getClickedBlock() != null;
+        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || !event.getClickedBlock().getType().equals(Material.NOTE_BLOCK)) {
+            triggerBlockPlaceCooldown(event);
+            return;
+        }
+
+        event.setCancelled(true);
+        if (!antiFastPlace.contains(event.getPlayer().getUniqueId()) && CustomBlock.isCustomBlock(event.getClickedBlock()) && !(event.getPlayer().isSneaking() && !ItemUtils.isAirOrNull(event.getPlayer().getInventory().getItemInMainHand()))) {
+            CustomBlock cb = CustomBlock.getCustomBlockbyData(new CustomBlockData((NoteBlock) event.getClickedBlock().getBlockData()));
+            if (cb instanceof InteractableBlock) {
+                ((InteractableBlock) cb).onInteract(event.getPlayer(), event.getClickedBlock());
+                return;
+            }
+        }
+
+        Player player = event.getPlayer();
+        PlayerInventory inv = player.getInventory();
+        ItemStack item = ItemUtils.getBlockOrCustomBlockInHand(inv);
+
+        if (item == null) {
+            if (player.isSneaking() && !ItemUtils.isAirOrNull(inv.getItemInMainHand()))
+                event.setCancelled(false);
+            return;
+        }
+
+        Block pblock = event.getClickedBlock().getRelative(event.getBlockFace());
+        EquipmentSlot slot = ItemUtils.getEquipmentSlot(inv, item);
+
+        Location eyeLoc = player.getEyeLocation();
+
+        Location point = Utils.getInteractionPoint(eyeLoc, 8, true);
+        assert point != null;
+
+        if (REPLACE.contains(event.getClickedBlock().getType()) || (event.getClickedBlock().getType().equals(Material.SNOW) && ((Snow) event.getClickedBlock().getBlockData()).getLayers() == 1))
+            pblock = event.getClickedBlock();
+        else if (!REPLACE.contains(pblock.getType())) return;
+
+        if (ItemUtils.getFirstCustomBlockInHand(inv) != null) triggerBlockPlaceCooldown(event);
+        else if (Tag.STAIRS.isTagged(item.getType())) {
+            BlockMaster.getNmsHandler().placeItem(player, item, pblock, slot);
+            //nmsItem.placeItem(new ItemActionContext(human, hand, MOPB), hand);
+            if (!(pblock.getBlockData() instanceof Stairs)) return;
+            Stairs data = (Stairs) pblock.getBlockData();
+            data.setHalf(point.getY() < .5d && point.getY() >= 0d
+                    ? Bisected.Half.BOTTOM
+                    : Bisected.Half.TOP);
+            pblock.setBlockData(data);
+        } else if (Tag.SLABS.isTagged(item.getType()) || pblock.getType().equals(item.getType())) {
+            Slab.Type dataType;
+            if (pblock.getType() == item.getType()) dataType = Slab.Type.DOUBLE;
+            else {
+                if ((point.getY() > 0d && point.getY() < .5d)
+                        || point.getY() == 1d) {
+                    dataType = Slab.Type.BOTTOM;
+                } else dataType = Slab.Type.TOP;
+                BlockMaster.getNmsHandler().placeItem(player, item, pblock, slot);
+                // nmsItem.placeItem(new ItemActionContext(human, hand, MOPB), hand);
+            }
+
+            BlockData data = pblock.getBlockData();
+            if (data instanceof Slab) {
+                ((Slab) data).setType(dataType);
+                pblock.setBlockData(data);
+            }
+        } else
+            BlockMaster.getNmsHandler().placeItem(player, item, pblock, slot);//nmsItem.placeItem(new ItemActionContext(human, hand, MOPB), hand);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        if (event.getBlock().getType() != Material.NOTE_BLOCK
+                || event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
+            return;
+        if (event.isCancelled()) return;
+        NoteBlock NBData = (NoteBlock) event.getBlock().getBlockData();
+        CustomBlock CB = CustomBlock.getCustomBlockbyData(new CustomBlockData(NBData));
+        if (CB == null) return;
+        event.setDropItems(false);
+        event.setExpToDrop(0);
+        CB.mine(event);
+    }
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        ArrayList<Block> blockList = new ArrayList<>(event.blockList());
+        // A concurrent modification exception occurs when you edit a list whilst
+        // looping through it
+
+        blockList.stream()
+                .filter(b -> b.getType() == Material.NOTE_BLOCK && CustomBlock.isCustomBlock(b))
+                .forEach(b -> {
+                    event.blockList().remove(b);
+                    CustomBlock CB = CustomBlock.getCustomBlockbyData(new CustomBlockData((NoteBlock) b.getBlockData()));
+                    if (CB != null) CB.mine(b);
+                    b.setType(Material.AIR);
+                });
+    }
+
     private boolean placeAndCheckCB(PlayerInteractEvent event) {
         try {
             if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return false;
@@ -137,74 +237,11 @@ public class BlockEvents implements Listener {
         return true;
     }
 
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        assert event.getClickedBlock() != null;
-        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || !event.getClickedBlock().getType().equals(Material.NOTE_BLOCK)) {
-            CBCooldown(event);
-            return;
-        }
-
-        event.setCancelled(true);
-        if (!antiFastPlace.contains(event.getPlayer().getUniqueId()) && CustomBlock.isCustomBlock(event.getClickedBlock()) && !(event.getPlayer().isSneaking() && !ItemUtils.isAirOrNull(event.getPlayer().getInventory().getItemInMainHand()))) {
-            CustomBlock cb = CustomBlock.getCustomBlockbyData(new CustomBlockData((NoteBlock) event.getClickedBlock().getBlockData()));
-            if (cb instanceof InteractableBlock) {
-                ((InteractableBlock) cb).onInteract(event.getPlayer(), event.getClickedBlock());
-                return;
-            }
-        }
-
-        Player player = event.getPlayer();
-        PlayerInventory inv = player.getInventory();
-        ItemStack item = ItemUtils.getBlockOrCustomBlockInHand(inv);
-
-        if (item == null) {
-            if (player.isSneaking() && !ItemUtils.isAirOrNull(inv.getItemInMainHand()))
-                event.setCancelled(false);
-            return;
-        }
-
-        Block pblock = event.getClickedBlock().getRelative(event.getBlockFace());
-        EquipmentSlot slot = ItemUtils.getEquipmentSlot(inv, item);
-
-        Location eyeLoc = player.getEyeLocation();
-
-        Location point = Utils.getInteractionPoint(eyeLoc, 8, true);
-        assert point != null;
-
-        if (REPLACE.contains(event.getClickedBlock().getType()) || (event.getClickedBlock().getType().equals(Material.SNOW) && ((Snow) event.getClickedBlock().getBlockData()).getLayers() == 1))
-            pblock = event.getClickedBlock();
-        else if (!REPLACE.contains(pblock.getType())) return;
-
-        if (ItemUtils.getFirstCustomBlockInHand(inv) != null) CBCooldown(event);
-        else if (Tag.STAIRS.isTagged(item.getType())) {
-            BlockMaster.getNmsHandler().placeItem(player, item, pblock, slot);
-            //nmsItem.placeItem(new ItemActionContext(human, hand, MOPB), hand);
-            if (!(pblock.getBlockData() instanceof Stairs)) return;
-            Stairs data = (Stairs) pblock.getBlockData();
-            data.setHalf(point.getY() < .5d && point.getY() >= 0d
-                    ? Bisected.Half.BOTTOM
-                    : Bisected.Half.TOP);
-            pblock.setBlockData(data);
-        } else if (Tag.SLABS.isTagged(item.getType()) || pblock.getType().equals(item.getType())) {
-            Slab.Type dataType;
-            if (pblock.getType() == item.getType()) dataType = Slab.Type.DOUBLE;
-            else {
-                if ((point.getY() > 0d && point.getY() < .5d)
-                        || point.getY() == 1d) {
-                    dataType = Slab.Type.BOTTOM;
-                } else dataType = Slab.Type.TOP;
-                BlockMaster.getNmsHandler().placeItem(player, item, pblock, slot);
-                // nmsItem.placeItem(new ItemActionContext(human, hand, MOPB), hand);
-            }
-
-            BlockData data = pblock.getBlockData();
-            if (data instanceof Slab) {
-                ((Slab) data).setType(dataType);
-                pblock.setBlockData(data);
-            }
-        } else
-            BlockMaster.getNmsHandler().placeItem(player, item, pblock, slot);//nmsItem.placeItem(new ItemActionContext(human, hand, MOPB), hand);
+    public void triggerBlockPlaceCooldown(PlayerInteractEvent event) {
+        UUID uuid = event.getPlayer().getUniqueId();
+        if (antiFastPlace.contains(uuid) || !placeAndCheckCB(event)) return;
+        antiFastPlace.add(uuid);
+        Bukkit.getScheduler().runTaskLater(BlockMaster.getInstance(), () -> antiFastPlace.remove(uuid), 2L);
     }
 
     public void updateAndCheck(Location loc) {
@@ -214,42 +251,5 @@ public class BlockEvents implements Listener {
         Block nextBlock = b.getRelative(BlockFace.UP);
         if (nextBlock.getType() == Material.NOTE_BLOCK)
             updateAndCheck(b.getLocation());
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
-        if (event.getBlock().getType() != Material.NOTE_BLOCK
-                || event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
-            return;
-        if (event.isCancelled()) return;
-        NoteBlock NBData = (NoteBlock) event.getBlock().getBlockData();
-        CustomBlock CB = CustomBlock.getCustomBlockbyData(new CustomBlockData(NBData));
-        if (CB == null) return;
-        event.setDropItems(false);
-        event.setExpToDrop(0);
-        CB.mine(event);
-    }
-
-    @EventHandler
-    public void onEntityExplode(EntityExplodeEvent event) {
-        ArrayList<Block> blockList = new ArrayList<>(event.blockList());
-        // A concurrent modification exception occurs when you edit a list whilst
-        // looping through it
-
-        blockList.stream()
-                .filter(b -> b.getType() == Material.NOTE_BLOCK && CustomBlock.isCustomBlock(b))
-                .forEach(b -> {
-                    event.blockList().remove(b);
-                    CustomBlock CB = CustomBlock.getCustomBlockbyData(new CustomBlockData((NoteBlock) b.getBlockData()));
-                    if (CB != null) CB.mine(b);
-                    b.setType(Material.AIR);
-                });
-    }
-
-    public void CBCooldown(PlayerInteractEvent event) {
-        UUID uuid = event.getPlayer().getUniqueId();
-        if (antiFastPlace.contains(uuid) || !placeAndCheckCB(event)) return;
-        antiFastPlace.add(uuid);
-        Bukkit.getScheduler().runTaskLater(BlockMaster.getInstance(), () -> antiFastPlace.remove(uuid), 2L);
     }
 }

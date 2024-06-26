@@ -7,6 +7,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.NoteBlock;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A directional block to take into account block rotation
+ */
 public interface DirectionalBlock {
     default void place(@NotNull Block block, @NotNull BlockFace facing) {
         block.setType(Material.NOTE_BLOCK, false);
