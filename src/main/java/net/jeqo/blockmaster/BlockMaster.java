@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.jeqo.blockmaster.commands.manager.CommandCore;
+import net.jeqo.blockmaster.configuration.ConfigConfiguration;
 import net.jeqo.blockmaster.listeners.BlockEvents;
 import net.jeqo.blockmaster.listeners.InventoryListeners;
 import net.jeqo.blockmaster.listeners.ListenerCore;
@@ -64,6 +65,9 @@ public final class BlockMaster extends JavaPlugin {
                 return;
             }
         }
+
+        // Load the blocks from the config
+        ConfigConfiguration.loadBlocks();
 
         // Stage all listeners for registration
         getListenerCore().stageListener(new BlockEvents());

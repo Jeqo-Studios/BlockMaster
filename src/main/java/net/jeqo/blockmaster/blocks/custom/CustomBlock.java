@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Note;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.NoteBlock;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -161,14 +162,14 @@ public class CustomBlock {
         return serialized;
     }
 
-    public static void deserialize(@NotNull Map<String, Object> deserialize) {
+    public static void deserialize(@NotNull FileConfiguration config, String key) {
         try {
-            register(new CustomBlock((String) deserialize.get("id"),
-                            (int) deserialize.get("itemModelData"),
-                            Instrument.valueOf((String) deserialize.get("instrument")),
-                            (int) deserialize.get("note"),
-                            (boolean) deserialize.get("powered"),
-                            deserialize.get("cbItem") != null ? Material.valueOf((String) deserialize.get("cbItem")) : null),
+            register(new CustomBlock(Objects.requireNonNull(config.getString(key + ".id")),
+                            config.getInt(key + ".itemModelData"),
+                            Instrument.valueOf(config.getString(key + ".instrument")),
+                            config.getInt(key + ".note"),
+                            config.getBoolean(key + ".powered"),
+                            config.getString(key + ".item") != null ? Material.valueOf(config.getString("item")) : null),
                     false);
         } catch (Exception e) {
             e.printStackTrace();
