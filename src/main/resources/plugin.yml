@@ -3,7 +3,7 @@ version: '${project.version}'
 main: net.jeqo.blockmaster.BlockMaster
 api-version: '1.20'
 authors: [ Gucci Fox ]
-description: A unique block creator plugin.
+description: A plugin that enables users to create custom blocks seamlessly and easily.
 website: https://jeqo.net
 commands:
   blockmaster:

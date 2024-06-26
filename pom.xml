@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>BlockMaster</name>
-    <description>A plugin designed to allow users to create custom blocks with ease</description>
+    <description>A plugin that enables users to create custom blocks seamlessly and easily.</description>
     <url>https://jeqo.net/</url>
 
     <distributionManagement>
