@@ -1,0 +1,15 @@
+net.jeqo.blockmaster
+net.jeqo.blockmaster.blocks.api
+net.jeqo.blockmaster.blocks.custom
+net.jeqo.blockmaster.blocks.directional
+net.jeqo.blockmaster.blocks.interactable
+net.jeqo.blockmaster.commands
+net.jeqo.blockmaster.commands.manager
+net.jeqo.blockmaster.commands.manager.types
+net.jeqo.blockmaster.configuration
+net.jeqo.blockmaster.gui
+net.jeqo.blockmaster.listeners
+net.jeqo.blockmaster.logger
+net.jeqo.blockmaster.message
+net.jeqo.blockmaster.nms
+net.jeqo.blockmaster.utils
