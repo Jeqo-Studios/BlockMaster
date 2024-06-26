@@ -28,7 +28,7 @@ public class CommandAdd extends Command {
     public boolean execute(CommandSender sender, String[] args) {
         if (args.length < 5) return false;
         try {
-            CustomBlock cb = new CustomBlock(args[1], Integer.parseInt(args[2]), Instrument.valueOf(args[3]), Integer.parseInt(args[4]), args[5].equalsIgnoreCase("true"));
+            CustomBlock cb = new CustomBlock(args[1], args[1], Integer.parseInt(args[2]), Instrument.valueOf(args[3]), Integer.parseInt(args[4]), args[5].equalsIgnoreCase("true"));
             CustomBlock.register(cb, false);
 
             //config.blocks.add(cb.serialize());

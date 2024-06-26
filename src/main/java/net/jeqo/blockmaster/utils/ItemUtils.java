@@ -1,5 +1,6 @@
 package net.jeqo.blockmaster.utils;
 
+import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.custom.CustomBlock;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -44,7 +45,7 @@ public class ItemUtils {
             if (ItemUtils.isAirOrNull(i)) continue;
             CustomBlock CB = CustomBlock.getCustomBlockbyItem(i);
             if (CB == null) continue;
-            Material expected = CB.getMaterial() != null ? CB.getMaterial() : Material.PAPER;
+            Material expected = CB.getMaterial() != null ? CB.getMaterial() : Material.matchMaterial(BlockMaster.getInstance().getConfig().getString("menu-item-material"));
             if (i.getType() == expected) return i;
         }
         return null;

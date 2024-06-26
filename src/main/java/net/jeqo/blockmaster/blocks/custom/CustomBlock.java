@@ -1,6 +1,7 @@
 package net.jeqo.blockmaster.blocks.custom;
 
 import lombok.Getter;
+import net.jeqo.blockmaster.BlockMaster;
 import net.jeqo.blockmaster.blocks.directional.DirectionalBlock;
 import net.jeqo.blockmaster.blocks.directional.DirectionalCustomBlock;
 import net.jeqo.blockmaster.utils.ItemUtils;
@@ -27,6 +28,8 @@ public class CustomBlock {
     private static final List<CustomBlock> REGISTRY = new ArrayList<>();
 
     @Getter
+    private final String key;
+    @Getter
     private final String id;
     private final int itemModelData;
     @Getter
@@ -34,15 +37,16 @@ public class CustomBlock {
     @Getter
     private final Material material;
 
-    public CustomBlock(@NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered, @Nullable Material material) {
+    public CustomBlock(String key, @NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered, @Nullable Material material) {
+        this.key = key;
         this.id = id;
         this.itemModelData = itemModelData;
         this.data = new CustomBlockData(instrument, note, powered);
         this.material = material;
     }
 
-    public CustomBlock(@NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered) {
-        this(id, itemModelData, instrument, note, powered, null);
+    public CustomBlock(String key, @NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered) {
+        this(key, id, itemModelData, instrument, note, powered, null);
     }
 
     public void onPhysics(Block block, Block source) {
@@ -78,13 +82,14 @@ public class CustomBlock {
     }
 
     public ItemStack getItemStack(boolean visibleBlockId) {
-        ItemStack item = new ItemStack(material == null ? Material.PAPER : material);
+        ItemStack item = new ItemStack(material == null ? Material.getMaterial(BlockMaster.getInstance().getConfig().getString("menu-item-material")) : material);
         item = ItemUtils.setItemId(item, id);
         item = ItemUtils.setComponentName(item,
                 new ComponentBuilder(new TranslatableComponent(String.format("customblocks.item.%s.name", id))).italic(false).create());
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setCustomModelData(itemModelData);
+            meta.setDisplayName(key);
             if (visibleBlockId) meta.setLore(Collections.singletonList(Utils.colorize("&r&8" + id)));
         }
         item.setItemMeta(meta);
@@ -164,7 +169,7 @@ public class CustomBlock {
 
     public static void deserialize(@NotNull FileConfiguration config, String key) {
         try {
-            register(new CustomBlock(Objects.requireNonNull(config.getString(key + ".id")),
+            register(new CustomBlock(key, Objects.requireNonNull(config.getString(key + ".id")),
                             config.getInt(key + ".itemModelData"),
                             Instrument.valueOf(config.getString(key + ".instrument")),
                             config.getInt(key + ".note"),

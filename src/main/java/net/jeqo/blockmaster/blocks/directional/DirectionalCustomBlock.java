@@ -18,16 +18,16 @@ import java.util.List;
 public class DirectionalCustomBlock extends CustomBlock implements DirectionalBlock {
     private final HashMap<BlockFace, CustomBlockData> VARIANTS = new HashMap<>();
 
-    public DirectionalCustomBlock(@NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered, @NotNull HashMap<BlockFace, CustomBlockData> variants, @Nullable Material material) {
-        super(id, itemModelData, instrument, note, powered, material);
+    public DirectionalCustomBlock(String key, @NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered, @NotNull HashMap<BlockFace, CustomBlockData> variants, @Nullable Material material) {
+        super(key, id, itemModelData, instrument, note, powered, material);
         List<BlockFace> AVAILABLE_FACES = Arrays.asList(BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN);
         AVAILABLE_FACES.forEach(f -> VARIANTS.put(f, getData()));
         Validate.isTrue(variants.size() >= 5, "Not enought face variants");
         variants.keySet().stream().filter(AVAILABLE_FACES::contains).forEach(f -> VARIANTS.put(f, variants.get(f)));
     }
 
-    public DirectionalCustomBlock(@NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered, @NotNull HashMap<BlockFace, CustomBlockData> variants) {
-        this(id, itemModelData, instrument, note, powered, variants, null);
+    public DirectionalCustomBlock(String key, @NotNull String id, int itemModelData, @NotNull Instrument instrument, int note, boolean powered, @NotNull HashMap<BlockFace, CustomBlockData> variants) {
+        this(key, id, itemModelData, instrument, note, powered, variants, null);
     }
 
     @Override
