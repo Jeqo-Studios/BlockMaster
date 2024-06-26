@@ -1,4 +1,5 @@
 net.jeqo.blockmaster
+net.jeqo.blockmaster.blocks
 net.jeqo.blockmaster.blocks.api
 net.jeqo.blockmaster.blocks.custom
 net.jeqo.blockmaster.blocks.directional
