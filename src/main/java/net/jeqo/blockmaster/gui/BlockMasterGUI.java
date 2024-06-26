@@ -13,13 +13,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.util.*;
 
 public class BlockMasterGUI {
     public static Map<UUID, Integer> savedPages = new HashMap<>();
@@ -64,7 +66,7 @@ public class BlockMasterGUI {
     }
 
     private static ItemStack getBackBtn() {
-        String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=";
+        String texture = "8652e2b936ca8026bd28651d7c9f2819d2e923697734d18dfdb13550f8fdad5f";
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
 
         assert item.getItemMeta() != null;
@@ -75,7 +77,7 @@ public class BlockMasterGUI {
     }
 
     private static ItemStack getInfoBtn(int page, int totalPages) {
-        String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUzZjUwYmE2MmNiZGEzZWNmNTQ3OWI2MmZlZGViZDYxZDc2NTg5NzcxY2MxOTI4NmJmMjc0NWNkNzFlNDdjNiJ9fX0=";
+        String texture = "2e3f50ba62cbda3ecf5479b62fedebd61d76589771cc19286bf2745cd71e47c6";
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
 
         assert item.getItemMeta() != null;
@@ -87,7 +89,7 @@ public class BlockMasterGUI {
     }
 
     private static ItemStack getNextBtn() {
-        String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=";
+        String texture = "2a3b8f681daad8bf436cae8da3fe8131f62a162ab81af639c3e0644aa6abac2f";
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
 
         assert item.getItemMeta() != null;
@@ -98,15 +100,19 @@ public class BlockMasterGUI {
     }
 
     private static SkullMeta getSkullMetaTextureByB64(@NotNull SkullMeta meta, @NotNull String texture) {
-        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
-        profile.getProperties().put("textures", new Property("textures", texture));
+        PlayerProfile profile = Bukkit.createPlayerProfile(UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4"));
+        PlayerTextures textures = profile.getTextures();
+
         try {
-            Field profileField = meta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(meta, profile);
-        } catch (Exception e) {
-            e.printStackTrace();
+            textures.setSkin(URI.create("https://textures.minecraft.net/texture/" + texture).toURL());
+        } catch (MalformedURLException exception) {
+            throw new RuntimeException("Invalid URL", exception);
         }
+
+        profile.setTextures(textures);
+
+        meta.setOwnerProfile(profile);
+
         return meta;
     }
 }
