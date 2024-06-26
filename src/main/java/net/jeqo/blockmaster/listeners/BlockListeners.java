@@ -57,13 +57,6 @@ public class BlockListeners implements Listener {
     }
 
     @EventHandler
-    public void onNoteBlockPhysics(BlockPhysicsEvent event) {
-        if (!event.getBlock().getType().equals(Material.NOTE_BLOCK)) return;
-        CustomBlock cb = BlockRegistry.getCustomBlockbyData(new CustomBlockData(event.getBlock()));
-        if (cb != null) cb.onPhysics(event.getBlock(), event.getSourceBlock());
-    }
-
-    @EventHandler
     public void onPistonExtends(BlockPistonExtendEvent event) {
         if (event.getBlocks().stream().anyMatch(b -> b.getType().equals(Material.NOTE_BLOCK)))
             event.setCancelled(true);

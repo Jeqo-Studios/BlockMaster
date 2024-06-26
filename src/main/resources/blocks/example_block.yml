@@ -3,6 +3,7 @@ example:
   id: "blockmaster:example"
   item:
     custom-model-data: 1001
+    item: DIAMOND
   block:
     instrument: BANJO
     note: 1

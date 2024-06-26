@@ -71,7 +71,7 @@ public class BlockRegistry {
                             Instrument.valueOf(config.getString(key + ".block.instrument")),
                             config.getInt(key + ".block.note"),
                             config.getBoolean(key + ".block.powered"),
-                            config.getString(key + ".item") != null ? Material.valueOf(config.getString("item")) : null),
+                            config.getString(key + ".item.item") != null ? Material.valueOf(config.getString(key + ".item.item")) : null),
                     false);
         } catch (Exception e) {
             e.printStackTrace();

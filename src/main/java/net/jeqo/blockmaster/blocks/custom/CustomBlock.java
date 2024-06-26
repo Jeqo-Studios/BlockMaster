@@ -79,13 +79,6 @@ public class CustomBlock {
     }
 
     /**
-     *                  In the case of a physics event, this method is called
-     * @param block     The block that the physics event is triggered on
-     * @param source    The source of the physics event
-     */
-    public void onPhysics(Block block, Block source) { }
-
-    /**
      *              Triggered on a block break event and runs the logic for block placements
      * @param event The event of the block being placed, type org.bukkit.event.block.BlockPlaceEvent
      */
