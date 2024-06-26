@@ -1,7 +1,5 @@
 package net.jeqo.blockmaster.message;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -9,29 +7,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @param instance  The instance of the plugin, type org.bukkit.plugin.java.JavaPlugin
  */
 public record MessageTranslations(JavaPlugin instance) {
-
-    /**
-     *                      Converts a message containing MiniMessage serialized strings to a Component that can be used to
-     *                      send formatted messages with gradients, rainbows, etc.
-     * @param messagePrefix The prefix of the message, type java.lang.String
-     * @param messageSuffix The suffix of the message, type java.lang.String
-     * @return              The formatted message as a Component, type net.kyori.adventure.text.Component
-     */
-    public Component getSerializedString(String messagePrefix, String messageSuffix) {
-        MiniMessage mm = MiniMessage.miniMessage();
-        return mm.deserialize(messagePrefix + messageSuffix);
-    }
-
-    /**
-     *                  Converts a message containing MiniMessage serialized strings to a Component that can be used to
-     *                  send formatted messages with gradients, rainbows, etc.
-     * @param message   The message to convert to a deserialized component, type java.lang.String
-     * @return          The formatted message as a Component, type net.kyori.adventure.text.Component
-     */
-    public Component getSerializedString(String message) {
-        MiniMessage mm = MiniMessage.miniMessage();
-        return mm.deserialize(message);
-    }
 
     /**
      *              Get a string from the config.yml file

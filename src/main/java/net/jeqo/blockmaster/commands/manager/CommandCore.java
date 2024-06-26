@@ -93,13 +93,13 @@ public class CommandCore implements CommandExecutor {
             if (currentCommand.getCommandAliases().contains(subcommand)) {
                 // Check if the sender has the permission to execute the command
                 if (!meetsRequirements(currentCommand, sender)) {
-                    sender.sendMessage(this.getMessageTranslations().getSerializedString(Languages.getMessage("prefix"), Languages.getMessage("no-permission")));
+                    sender.sendMessage(Languages.getMessage("prefix"), Languages.getMessage("no-permission"));
                     return false;
                 }
 
                 // Check if the command is disabled
                 if (currentCommand.getRequiredAccess() == CommandAccess.DISABLED) {
-                    sender.sendMessage(this.getMessageTranslations().getSerializedString(Languages.getMessage("prefix"), Languages.getMessage("command-disabled")));
+                    sender.sendMessage(Languages.getMessage("prefix"), Languages.getMessage("command-disabled"));
                     return false;
                 }
 

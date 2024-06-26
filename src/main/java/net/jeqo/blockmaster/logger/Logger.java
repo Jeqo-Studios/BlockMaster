@@ -1,7 +1,7 @@
 package net.jeqo.blockmaster.logger;
 
 import net.jeqo.blockmaster.configuration.PluginConfiguration;
-import net.kyori.adventure.text.Component;
+import net.jeqo.blockmaster.message.Languages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -24,8 +24,7 @@ public class Logger {
      * @param message   The message to log, type java.lang.String
      */
     public static void logToPlayer(LoggingLevel level, Player player, String message) {
-        Component component = Component.text("[" + level.getName() + "] " + message).color(level.getColor());
-        player.sendMessage(component);
+        player.sendMessage(level.getColor() + "[" + level.getName() + "] " + message);
     }
 
     /**
@@ -33,11 +32,9 @@ public class Logger {
      * @param player    The player to log the message to, type org.bukkit.entity.Player
      * @param message   The message to log, type java.lang.String
      */
-//    public static void logToPlayer(Player player, String message) {
-//        MessageTranslations messageTranslations = new MessageTranslations(BlockMaster.getInstance());
-//        Component component = messageTranslations.getSerializedString(Languages.getMessage("prefix") + message);
-//        player.sendMessage(component);
-//    }
+    public static void logToPlayer(Player player, String message) {
+        player.sendMessage(Languages.getMessage("prefix") + message);
+    }
 
     /**
      *                  Log a message to the console
@@ -45,8 +42,7 @@ public class Logger {
      * @param message   The message to log, type java.lang.String
      */
     public static void log(LoggingLevel level, String message) {
-        Component component = Component.text("[" + level.getName() + "] " + message).color(level.getColor());
-        Bukkit.getServer().getConsoleSender().sendMessage(component);
+        Bukkit.getServer().getConsoleSender().sendMessage(level.getColor() + "[" + level.getName() + "] " + message);
     }
 
     /**
