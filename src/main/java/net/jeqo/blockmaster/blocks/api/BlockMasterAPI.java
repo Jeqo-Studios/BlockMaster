@@ -12,6 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The API to interact with the BlockMaster plugin
+ */
 public class BlockMasterAPI {
     /**
      *          Gets the custom block registry list

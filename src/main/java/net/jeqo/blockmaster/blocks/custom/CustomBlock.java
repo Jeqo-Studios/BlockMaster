@@ -23,6 +23,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
+/**
+ * The class that represents a custom block within BlockMaster
+ */
 @Getter @Setter
 public class CustomBlock {
     private static final List<CustomBlock> REGISTRY = new ArrayList<>();
@@ -100,7 +103,7 @@ public class CustomBlock {
      */
     public void place(Block block) {
         block.setType(Material.NOTE_BLOCK, false);
-        block.setBlockData(data.applyData((NoteBlock) block.getBlockData()));
+        block.setBlockData(this.getData().applyData((NoteBlock) block.getBlockData()));
     }
 
     /**
@@ -128,7 +131,7 @@ public class CustomBlock {
     public boolean compareData(CustomBlockData data) {
         return (this instanceof DirectionalCustomBlock) ?
                 ((DirectionalCustomBlock) this).isVariant(data) :
-                this.data.compareData(data);
+                this.getData().compareData(data);
     }
 
     /**
@@ -145,17 +148,18 @@ public class CustomBlock {
      * @return                  The item, type org.bukkit.inventory.ItemStack
      */
     public ItemStack getItemStack(boolean visibleBlockId) {
-        ItemStack item = new ItemStack(material == null ? Material.getMaterial(BlockMaster.getInstance().getConfig().getString("menu-item-material")) : material);
-        item = ItemUtils.setItemId(item, id);
+        ItemStack item = new ItemStack(this.getMaterial() == null ? Material.getMaterial(BlockMaster.getInstance().getConfig().getString("menu-item-material")) : this.getMaterial());
+        item = ItemUtils.setItemId(item, this.getId());
         item = ItemUtils.setComponentName(item,
-                new ComponentBuilder(new TranslatableComponent(String.format("customblocks.item.%s.name", id))).italic(false).create());
+                new ComponentBuilder(new TranslatableComponent(String.format("customblocks.item.%s.name", this.getId()))).italic(false).create());
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setCustomModelData(customModelData);
-            meta.setDisplayName(key);
-            if (visibleBlockId) meta.setLore(Collections.singletonList(Utils.colorize("&r&8" + id)));
+            meta.setCustomModelData(this.getCustomModelData());
+            meta.setDisplayName(this.getKey());
+            if (visibleBlockId) meta.setLore(Collections.singletonList(Utils.colorize("&r&8" + this.getId())));
         }
         item.setItemMeta(meta);
+
         return item;
     }
 
@@ -165,9 +169,9 @@ public class CustomBlock {
      * @return      The custom block, type net.jeqo.blockmaster.blocks.custom.CustomBlock
      */
     public static CustomBlock getCustomBlockbyId(String id) {
-        for (CustomBlock CB : REGISTRY)
-            if (CB.getId().equalsIgnoreCase(id))
-                return CB;
+        for (CustomBlock customBlock : REGISTRY)
+            if (customBlock.getId().equalsIgnoreCase(id))
+                return customBlock;
         return null;
     }
 
@@ -194,13 +198,13 @@ public class CustomBlock {
     }
 
     /**
-     *             Checks if a block is a custom block
-     * @param b    The block to check, type org.bukkit.block.Block
-     * @return      True if the block is a custom block, false otherwise
+     *                  Checks if a block is a custom block
+     * @param block     The block to check, type org.bukkit.block.Block
+     * @return          True if the block is a custom block, false otherwise
      */
-    public static boolean isCustomBlock(Block b) {
-        return b.getBlockData() instanceof NoteBlock &&
-                !((NoteBlock) b.getBlockData()).getNote().equals(new Note(0));
+    public static boolean isCustomBlock(Block block) {
+        return block.getBlockData() instanceof NoteBlock &&
+                !((NoteBlock) block.getBlockData()).getNote().equals(new Note(0));
     }
 
     /**
