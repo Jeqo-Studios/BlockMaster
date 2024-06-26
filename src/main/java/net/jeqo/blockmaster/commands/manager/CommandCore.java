@@ -42,7 +42,7 @@ public class CommandCore implements CommandExecutor {
         // Register all commands staged
         registerCommands();
 
-        //Objects.requireNonNull(this.getPlugin().getCommand(PluginConfiguration.COMMAND_BASE)).setTabCompleter(new CommandTabCompleter());
+        Objects.requireNonNull(this.getPlugin().getCommand(PluginConfiguration.COMMAND_BASE)).setTabCompleter(new CommandTabCompleter());
     }
 
     /**

@@ -192,7 +192,7 @@ public class BlockEvents implements Listener {
             pblock.setBlockData(data);
         } else if (Tag.SLABS.isTagged(item.getType()) || pblock.getType().equals(item.getType())) {
             Slab.Type dataType;
-            if (pblock.getType() == item.getType()) dataType = Type.DOUBLE;
+            if (pblock.getType() == item.getType()) dataType = Slab.Type.DOUBLE;
             else {
                 if ((point.getY() > 0d && point.getY() < .5d)
                         || point.getY() == 1d) {
